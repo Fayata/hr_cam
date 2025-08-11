@@ -1,0 +1,1 @@
+› 2xmlX»hr2hr_cam/bin/System.Diagnostics.DiagnosticSource.xml

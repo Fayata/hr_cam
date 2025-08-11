@@ -1,0 +1,1 @@
+Ì! 2xmlXºhrZpackages/System.Net.Primitives.4.0.11/ref/netstandard1.3/zh-hans/System.Net.Primitives.xml

@@ -1,0 +1,1 @@
+Ä 2xmlX–7hr4packages/itext.8.0.4/lib/netstandard2.0/itext.io.xml

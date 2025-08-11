@@ -1,0 +1,1 @@
+í  2xmlX¿hrHpackages/System.Net.Http.4.1.0/ref/netcore50/zh-hans/System.Net.Http.xml

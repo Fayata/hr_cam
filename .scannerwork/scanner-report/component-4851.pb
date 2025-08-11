@@ -1,0 +1,1 @@
+ó% 2xmlXÚhr\packages/System.Runtime.Extensions.4.1.0/ref/netstandard1.5/de/System.Runtime.Extensions.xml

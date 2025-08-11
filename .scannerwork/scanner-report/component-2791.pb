@@ -1,0 +1,1 @@
+ç 2xmlXé:hr:packages/itext.pdfhtml.5.0.4/lib/net461/itext.html2pdf.xml

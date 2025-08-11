@@ -1,0 +1,1 @@
+£$ 2xmlXVhrgpackages/System.Reflection.TypeExtensions.4.3.0/ref/netstandard1.5/System.Reflection.TypeExtensions.xml

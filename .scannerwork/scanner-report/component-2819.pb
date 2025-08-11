@@ -1,0 +1,1 @@
+ƒ 2xmlX¼	hrGpackages/K4os.Compression.LZ4.1.3.5/lib/net5.0/K4os.Compression.LZ4.xml

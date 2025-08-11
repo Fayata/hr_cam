@@ -1,0 +1,1 @@
+Ğ 2xmlXÿOhrApackages/itext.8.0.4/lib/netstandard2.0/itext.styledxmlparser.xml

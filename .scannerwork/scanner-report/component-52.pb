@@ -1,0 +1,1 @@
+4 2xmlXñ¬hrhr_cam/bin/itextsharp.xml

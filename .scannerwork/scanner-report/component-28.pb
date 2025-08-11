@@ -1,0 +1,1 @@
+ 2xmlX7hr,hr_cam/bin/itext.bouncy-castle-connector.xml

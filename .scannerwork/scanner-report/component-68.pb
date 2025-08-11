@@ -1,0 +1,1 @@
+D 2xmlX‘hr8hr_cam/bin/Microsoft.Extensions.Logging.Abstractions.xml

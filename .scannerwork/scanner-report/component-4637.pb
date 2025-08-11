@@ -1,0 +1,1 @@
+ù$ 2xmlXVhrjpackages/System.Reflection.TypeExtensions.4.3.0/ref/netstandard1.5/fr/System.Reflection.TypeExtensions.xml

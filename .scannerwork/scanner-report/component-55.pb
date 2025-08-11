@@ -1,0 +1,1 @@
+7 2xmlXßhr+hr_cam/bin/K4os.Compression.LZ4.Streams.xml

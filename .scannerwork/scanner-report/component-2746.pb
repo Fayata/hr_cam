@@ -1,0 +1,1 @@
+º 2xmlXÿOhr9packages/itext.8.0.4/lib/net461/itext.styledxmlparser.xml

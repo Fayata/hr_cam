@@ -1,0 +1,1 @@
+Ú 2xmlXá*hr]packages/itext.bouncy-castle-adapter.8.0.4/lib/netstandard2.0/itext.bouncy-castle-adapter.xml

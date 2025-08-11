@@ -1,0 +1,1 @@
+é 2xmlX¢hrFpackages/Newtonsoft.Json.Bson.1.0.2/lib/net45/Newtonsoft.Json.Bson.xml

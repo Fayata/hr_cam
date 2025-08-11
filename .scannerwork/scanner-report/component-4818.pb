@@ -1,0 +1,1 @@
+Ò% 2xmlXÚhrWpackages/System.Runtime.Extensions.4.1.0/ref/netcore50/de/System.Runtime.Extensions.xml

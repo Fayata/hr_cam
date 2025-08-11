@@ -1,0 +1,1 @@
+£ 2xmlX´hrTpackages/System.IO.Compression.4.1.0/ref/netcore50/zh-hans/System.IO.Compression.xml

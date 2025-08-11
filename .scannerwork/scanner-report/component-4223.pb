@@ -1,0 +1,1 @@
+ÿ  2xmlXžhrHpackages/System.Net.Http.4.1.0/ref/netstandard1.3/ko/System.Net.Http.xml

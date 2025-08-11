@@ -1,0 +1,1 @@
+ 2cssXß>hr=hr_cam/obj/Release/Package/PackageTmp/fontawesome/css/all.css

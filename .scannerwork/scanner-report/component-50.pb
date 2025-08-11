@@ -1,0 +1,1 @@
+2 2xmlXÂ hrhr_cam/bin/itext.svg.xml

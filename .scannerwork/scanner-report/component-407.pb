@@ -1,0 +1,1 @@
+— 2cssXhr?hr_cam/obj/Release/Package/PackageTmp/fontawesome/css/solid.css

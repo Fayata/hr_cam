@@ -1,0 +1,1 @@
+Ï 2cssX™hrEhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_animated.scss

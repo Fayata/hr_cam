@@ -1,0 +1,1 @@
+Ì 2xmlXÃhr7packages/itext.8.0.4/lib/netstandard2.0/itext.pdfua.xml

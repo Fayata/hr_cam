@@ -1,0 +1,1 @@
+G 2xmlX‘hr1bin/Microsoft.Extensions.Logging.Abstractions.xml

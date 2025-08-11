@@ -1,0 +1,1 @@
+œ 2xmlXâWhr>packages/Google.Protobuf.3.25.1/lib/net5.0/Google.Protobuf.xml

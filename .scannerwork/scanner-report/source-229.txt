@@ -1,0 +1,204 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class Edit_user_admin : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //if (Request.QueryString["id"] != null)
+            //{
+            //    string id = Request.QueryString["id"];
+            //    Response.Write("<script>alert('idnya'"+id+");</script>");
+            //}
+            //else
+            //{
+            //    Response.Write("<script>alert('masuk sini');</script>");
+            //}
+            //if (!IsPostBack)
+            //{
+            //}
+            //Response.Write("<script>alert('masuk ko');</script>");
+            if (!IsPostBack)
+            {
+                string id = Request.QueryString["id"];
+                if (id!="") {
+                    TextBox5.Text = "";
+                    TextBox3.TextMode = TextBoxMode.Password;
+                    TextBox4.TextMode = TextBoxMode.Password;
+                    using (MySqlConnection con = new MySqlConnection(strcon))
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+
+                        using (MySqlCommand cmd = new MySqlCommand("SELECT * from roles", con))
+                        {
+                            using (MySqlDataReader dr = cmd.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    while (dr.Read())
+                                    {
+                                        DropDownList1.Items.Add(new ListItem(dr.GetValue(1).ToString(), dr.GetValue(0).ToString()));
+                                    }
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                        using (MySqlCommand cmd2 = new MySqlCommand("SELECT * from sites", con))
+                        {
+                            using (MySqlDataReader dr2 = cmd2.ExecuteReader())
+                            {
+                                if (dr2.HasRows)
+                                {
+                                    while (dr2.Read())
+                                    {
+                                        DropDownList2.Items.Add(new ListItem(dr2.GetValue(1).ToString(), dr2.GetValue(0).ToString()));
+                                    }
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                        using (MySqlCommand cmd3 = new MySqlCommand("SELECT * from users where id='"+id+"'", con))
+                        {
+                            using (MySqlDataReader dr3 = cmd3.ExecuteReader())
+                            {
+                                if (dr3.HasRows)
+                                {
+                                    while (dr3.Read())
+                                    {
+                                        TextBox1.Text = dr3.GetValue(1).ToString();
+                                        TextBox2.Text = dr3.GetValue(2).ToString();
+                                        DropDownList1.SelectedValue = dr3.GetValue(8).ToString();
+                                        DropDownList2.SelectedValue = dr3.GetValue(9).ToString();
+                                        TextBox6.Text=dr3.GetValue(0).ToString();
+                                        TextBox5.Text = "no";
+                                    }
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                } else
+                {
+
+                    Response.Redirect("user_admin.aspx");
+                    Response.Write("<script>alert('ID users invalid');</script>");
+                }
+                //Response.Write("ID: " + id);
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+
+            UpdateUser();
+        }
+
+        protected void TogglePasswordVisibility(string inputId, string iconId)
+        {
+            var passwordInput = FindControl(inputId) as TextBox;
+            var visibilityIcon = FindControl(iconId) as HtmlGenericControl;
+
+            if (passwordInput.TextMode == TextBoxMode.Password)
+            {
+                passwordInput.TextMode = TextBoxMode.SingleLine;
+                visibilityIcon.InnerText = "visibility_off";
+            }
+            else
+            {
+                passwordInput.TextMode = TextBoxMode.Password;
+                visibilityIcon.InnerText = "visibility";
+            }
+        }
+
+        void UpdateUser()
+        {
+            try
+            {
+                string id = TextBox6.Text;
+                string name = TextBox1.Text;
+                string email = TextBox2.Text;
+                string update = TextBox5.Text;
+                string role_id = DropDownList1.SelectedValue;
+                string site_id = DropDownList2.SelectedValue;
+                
+                    if (update == "yes") {
+                    string password = TextBox3.Text;
+                        password = BCrypt.Net.BCrypt.HashPassword(password);
+                        using (MySqlConnection con = new MySqlConnection(strcon))
+                        {
+                            if (con.State == ConnectionState.Closed)
+                            {
+                                con.Open();
+                            }
+                            using (MySqlCommand cmd = new MySqlCommand("UPDATE users set name='"+name+ "',email='"+email+ "',password='"+password+ "',role_id='"+role_id+ "',site_id='"+site_id+ "' where id='"+id+"'", con))
+                            {
+                                //cmd.Parameters.AddWithValue("@id", id);
+                                //cmd.Parameters.AddWithValue("@name", name);
+                                //cmd.Parameters.AddWithValue("@email", email);
+                                //cmd.Parameters.AddWithValue("@password", password);
+                                //cmd.Parameters.AddWithValue("@role_id", role_id);
+                                //cmd.Parameters.AddWithValue("@site_id", site_id);
+
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+                            //Response.Redirect("user_admin.aspx");
+
+                            //Session["Message"] = new Tuple<string, string>("update", "Data berhasil diubah.");
+                            Session["update"] = "User Admin have been succesfully changed.";
+                            Response.Redirect("user_admin.aspx");
+                            }
+                        }
+                    } else if(update=="no") {
+                    using (MySqlConnection con = new MySqlConnection(strcon))
+                        {
+                            if (con.State == ConnectionState.Closed)
+                            {
+                                con.Open();
+                            }
+                            using (MySqlCommand cmd = new MySqlCommand("UPDATE users set name='" + name + "',email='" + email + "',role_id='" + role_id + "',site_id='" + site_id + "' where id='" + id + "'", con))
+                        {
+                                //cmd.Parameters.AddWithValue("@id", id);
+                                //cmd.Parameters.AddWithValue("@name", name);
+                                //cmd.Parameters.AddWithValue("@email", email);
+                                //cmd.Parameters.AddWithValue("@role_id", role_id);
+                                //cmd.Parameters.AddWithValue("@site_id", site_id);
+
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+                            //Response.Redirect("user_admin.aspx");
+                            //Response.Write("<script>alert('User Admin added Successfully');</script>");
+                            //Session["Message"] = new Tuple<string, string>("update", "Data berhasil diupdate.");
+                            Session["update"] = "User Admin have been succesfully changed.";
+                            Response.Redirect("user_admin.aspx");
+                            }
+                        }
+                    }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+            }
+        }
+        
+    }
+}

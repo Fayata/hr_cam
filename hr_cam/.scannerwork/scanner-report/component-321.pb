@@ -1,0 +1,1 @@
+Á 2csXhrProperties/Settings.Designer.cs

@@ -1,0 +1,1 @@
+™ 2xmlX¸Yhr=packages/Google.Protobuf.3.25.1/lib/net45/Google.Protobuf.xml

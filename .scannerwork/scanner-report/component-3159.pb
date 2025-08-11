@@ -1,0 +1,1 @@
+× 2xmlXŽLhr=packages/Newtonsoft.Json.13.0.3/lib/net40/Newtonsoft.Json.xml

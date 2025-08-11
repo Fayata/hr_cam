@@ -1,0 +1,1 @@
+• 2cssXhrAhr_cam/obj/Release/Package/PackageTmp/fontawesome/css/regular.css

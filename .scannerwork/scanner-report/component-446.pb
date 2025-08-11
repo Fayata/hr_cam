@@ -1,0 +1,1 @@
+¾ 2cssXhrChr_cam/obj/Release/Package/PackageTmp/fontawesome/less/_sizing.less

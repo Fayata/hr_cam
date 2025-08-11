@@ -1,0 +1,1 @@
+Ç+ 2xmlX:hrQpackages/System.Threading.Timer.4.0.1/ref/netcore50/de/System.Threading.Timer.xml

@@ -1,0 +1,1 @@
+Î 2cssXhrDhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/v4-shims.scss

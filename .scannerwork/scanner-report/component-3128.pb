@@ -1,0 +1,1 @@
+∏ 2xmlXçëhr3packages/MySql.Data.8.4.0/lib/net462/MySql.Data.xml

@@ -1,0 +1,1 @@
+Ô+ 2xmlX;hrVpackages/System.Threading.Timer.4.0.1/ref/netstandard1.2/fr/System.Threading.Timer.xml

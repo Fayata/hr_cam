@@ -1,0 +1,1 @@
+€! 2xmlXòhrHpackages/System.Net.Http.4.1.0/ref/netstandard1.3/ru/System.Net.Http.xml

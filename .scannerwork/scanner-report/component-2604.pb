@@ -1,0 +1,1 @@
+¬ 2csXhr&hr_cam/Properties/Settings.Designer.cs

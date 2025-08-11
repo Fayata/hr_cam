@@ -1,0 +1,1 @@
+†  2xmlXÇ%hrSpackages/System.Linq.Expressions.4.1.0/ref/netcore50/fr/System.Linq.Expressions.xml

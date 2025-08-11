@@ -1,0 +1,1 @@
+ñ 2xmlXæ	hr_packages/Microsoft.Extensions.Options.5.0.0/lib/netstandard2.0/Microsoft.Extensions.Options.xml

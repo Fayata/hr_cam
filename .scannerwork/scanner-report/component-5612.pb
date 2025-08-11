@@ -1,0 +1,1 @@
+ì+ 2xmlX	hr@packages/System.ValueTuple.4.5.0/lib/net47/System.ValueTuple.xml

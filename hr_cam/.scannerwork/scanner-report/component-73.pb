@@ -1,0 +1,1 @@
+I 2xmlXŸhr$bin/Microsoft.Extensions.Logging.xml

@@ -1,0 +1,1 @@
+Â 2xmlXöHhr7packages/itext.8.0.4/lib/netstandard2.0/itext.forms.xml

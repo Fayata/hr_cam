@@ -1,0 +1,1 @@
+å  2xmlX’hrCpackages/System.Net.Http.4.1.0/ref/netcore50/es/System.Net.Http.xml

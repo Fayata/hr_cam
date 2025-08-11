@@ -1,0 +1,1 @@
+Ò 2xmlXÂ hr5packages/itext.8.0.4/lib/netstandard2.0/itext.svg.xml

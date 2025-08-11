@@ -1,0 +1,1 @@
+ª+ 2xmlXhrXpackages/System.Threading.Thread.4.0.0/ref/netstandard1.3/it/System.Threading.Thread.xml

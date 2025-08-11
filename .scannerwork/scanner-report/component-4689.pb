@@ -1,0 +1,1 @@
+Ñ$ 2xmlXVhropackages/System.Resources.ResourceManager.4.0.1/ref/netstandard1.0/zh-hans/System.Resources.ResourceManager.xml

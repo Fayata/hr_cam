@@ -1,0 +1,1 @@
+Ã! 2xmlX‚hrUpackages/System.Net.Primitives.4.0.11/ref/netstandard1.3/de/System.Net.Primitives.xml

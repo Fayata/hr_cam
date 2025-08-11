@@ -1,0 +1,1 @@
+¤ 2xmlXÕhr"hr_cam/bin/System.IO.Pipelines.xml

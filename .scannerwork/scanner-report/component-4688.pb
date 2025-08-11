@@ -1,0 +1,1 @@
+Ð$ 2xmlXPhrgpackages/System.Resources.ResourceManager.4.0.1/ref/netstandard1.0/System.Resources.ResourceManager.xml

@@ -1,0 +1,1 @@
+F 2xmlXŸhr+hr_cam/bin/Microsoft.Extensions.Logging.xml

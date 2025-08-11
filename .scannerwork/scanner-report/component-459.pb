@@ -1,0 +1,1 @@
+Ë 2cssXhrGhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/fontawesome.scss

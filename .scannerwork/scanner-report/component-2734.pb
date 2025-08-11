@@ -1,0 +1,1 @@
+® 2xmlX³7hr,packages/itext.8.0.4/lib/net461/itext.io.xml

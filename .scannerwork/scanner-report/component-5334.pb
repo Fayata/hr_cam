@@ -1,0 +1,1 @@
+Ö) 2xmlXÌhr^packages/System.Text.RegularExpressions.4.1.0/ref/netcore50/System.Text.RegularExpressions.xml

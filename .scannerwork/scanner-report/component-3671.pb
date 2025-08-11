@@ -1,0 +1,1 @@
+× 2xmlX¤hr^packages/System.Diagnostics.Tracing.4.1.0/ref/netstandard1.5/fr/System.Diagnostics.Tracing.xml

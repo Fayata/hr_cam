@@ -1,0 +1,1 @@
+Ê 2cssXhrBhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/brands.scss

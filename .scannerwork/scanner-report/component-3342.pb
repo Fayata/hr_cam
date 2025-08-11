@@ -1,0 +1,1 @@
+Ž 2xmlXÍhrJpackages/System.Collections.4.0.11/ref/netcore50/fr/System.Collections.xml

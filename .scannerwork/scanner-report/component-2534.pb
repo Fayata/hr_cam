@@ -1,0 +1,1 @@
+æ 2cssXœhr=hr_cam/obj/Release/Package/PackageTmp/frontech/responsive.css

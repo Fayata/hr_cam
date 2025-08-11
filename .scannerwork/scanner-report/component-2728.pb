@@ -1,0 +1,1 @@
+¨ 2xmlXÅhr2packages/itext.8.0.4/lib/net461/itext.barcodes.xml

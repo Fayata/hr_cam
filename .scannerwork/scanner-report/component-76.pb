@@ -1,0 +1,1 @@
+L 2xmlXahr"hr_cam/bin/Microsoft.Owin.Cors.xml

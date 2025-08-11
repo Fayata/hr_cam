@@ -1,0 +1,1 @@
+æ! 2xmlXªhrNpackages/System.Net.Sockets.4.1.0/ref/netstandard1.3/fr/System.Net.Sockets.xml

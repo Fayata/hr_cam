@@ -1,0 +1,1 @@
+Ã 2xmlX³hr#hr_cam/bin/System.Web.Http.Cors.xml

@@ -1,0 +1,1 @@
+À 2xmlX¤‘hr3packages/MySql.Data.8.4.0/lib/net8.0/MySql.Data.xml

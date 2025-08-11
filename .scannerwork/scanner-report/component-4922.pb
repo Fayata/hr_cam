@@ -1,0 +1,1 @@
+º& 2xmlXû hrapackages/System.Runtime.InteropServices.4.3.0/ref/netcore50/fr/System.Runtime.InteropServices.xml

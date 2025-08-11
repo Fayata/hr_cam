@@ -1,0 +1,1 @@
+½$ 2xmlXPhrepackages/System.Resources.ResourceManager.4.0.1/ref/netcore50/de/System.Resources.ResourceManager.xml

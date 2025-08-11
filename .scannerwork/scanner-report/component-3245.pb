@@ -1,0 +1,1 @@
+≠ 2xmlXèØhrHpackages/Syncfusion.Pdf.AspNet.22.1.34/lib/net40/Syncfusion.Pdf.Base.xml

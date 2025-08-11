@@ -1,0 +1,1 @@
+ª! 2xmlX€hrMpackages/System.Net.Primitives.4.0.11/ref/netcore50/System.Net.Primitives.xml

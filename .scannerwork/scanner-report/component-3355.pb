@@ -1,0 +1,1 @@
+› 2xmlX’hrOpackages/System.Collections.4.0.11/ref/netstandard1.0/ja/System.Collections.xml

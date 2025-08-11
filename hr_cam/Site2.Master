@@ -1,0 +1,48 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site2.master.cs" Inherits="hr_cam.Site2" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>
+      Security Analytical Reporting Dashboard
+    </title>
+    <link rel="apple-touch-icon" sizes="76x76" href="bootstrap/pertamina_logo2.png">
+    <link rel="icon" type="image/png" href="bootstrap/pertamina_logo2.png">
+    <link href="bootstrap2/css/bootstrap.min.css" rel="stylesheet" />
+    <%--<link href="bootstrap/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />--%>
+    <%--<link href="bootstrap/css/nucleo-icons.css" rel="stylesheet" />--%>
+    <%--<link href="bootstrap/css/nucleo-svg.css" rel="stylesheet" />--%>
+    <%--<link href="datatables/css/dataTables.dataTables.min.css" rel="stylesheet" />--%>
+    <%--<link href="fontawesome/css/all.css" rel="stylesheet" />--%>
+    <link href="bootstrap2/css/icon.css" rel="stylesheet" />
+    <%--<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">--%>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
+    <%--<script src="bootstrap/js/core/bootstrap.min.js"></script>
+    <script src="bootstrap/js/core/popper.min.js"></script>
+    <script src="bootstrap/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="bootstrap/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="bootstrap/js/plugins/chartjs.min.js"></script>
+    <script src="bootstrap/js/material-dashboard.min.js?v=3.1.0"></script>--%>
+    <script src="bootstrap2/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap2/js/buttons.js"></script>
+    <script src="bootstrap2/js/nepcha-analytics.js"></script>
+    <%--<script async defer src="https://buttons.github.io/buttons.js"></script>--%>
+    <%--<script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<body class="bg-gray-200">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <form id="form2" runat="server">
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    
+                </asp:ContentPlaceHolder>
+            </div>
+        </form>
+
+    </main>
+</body>
+</html>

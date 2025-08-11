@@ -1,0 +1,1 @@
+§) 2xmlXÿhripackages/System.Text.Encoding.Extensions.4.0.11/ref/netstandard1.3/fr/System.Text.Encoding.Extensions.xml

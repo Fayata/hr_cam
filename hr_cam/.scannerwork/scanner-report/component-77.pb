@@ -1,0 +1,1 @@
+M 2xmlXôhr'bin/Microsoft.Extensions.Primitives.xml

@@ -1,0 +1,1 @@
+> 2xmlXDhrAhr_cam/bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml

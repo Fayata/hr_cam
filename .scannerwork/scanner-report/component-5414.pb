@@ -1,0 +1,1 @@
+¦* 2xmlX hrKpackages/System.Threading.4.0.11/ref/netstandard1.0/ko/System.Threading.xml

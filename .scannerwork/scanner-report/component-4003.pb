@@ -1,0 +1,1 @@
+£ 2xmlXÕhrEpackages/System.IO.Pipelines.5.0.2/lib/net461/System.IO.Pipelines.xml

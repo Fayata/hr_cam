@@ -1,0 +1,1 @@
+Ê 2xmlX±	hr6packages/itext.8.0.4/lib/netstandard2.0/itext.pdfa.xml

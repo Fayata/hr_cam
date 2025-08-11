@@ -1,0 +1,1 @@
+ê 2xmlXﬁ]hrbpackages/Syncfusion.Compression.Base.22.1.34/lib/net6.0-windows7.0/Syncfusion.Compression.Base.xml

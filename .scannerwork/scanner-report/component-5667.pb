@@ -1,0 +1,1 @@
+£, 2xmlX°hrQpackages/System.Xml.ReaderWriter.4.0.11/ref/netcore50/System.Xml.ReaderWriter.xml

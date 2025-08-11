@@ -1,0 +1,1 @@
+¾ 2xmlXÅhr:packages/itext.8.0.4/lib/netstandard2.0/itext.barcodes.xml

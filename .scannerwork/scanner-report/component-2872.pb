@@ -1,0 +1,1 @@
+¸ 2xmlXˆ4hrIpackages/Microsoft.AspNet.WebApi.Core.5.3.0/lib/net45/System.Web.Http.xml

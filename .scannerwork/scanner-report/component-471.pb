@@ -1,0 +1,1 @@
+× 2cssX hrLhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_rotated-flipped.scss

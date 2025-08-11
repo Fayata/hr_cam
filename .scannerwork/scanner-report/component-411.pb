@@ -1,0 +1,1 @@
+› 2cssXhrFhr_cam/obj/Release/Package/PackageTmp/fontawesome/css/v4-font-face.css

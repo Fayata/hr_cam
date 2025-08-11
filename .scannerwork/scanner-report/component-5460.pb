@@ -1,0 +1,1 @@
+Ô* 2xmlXíhrRpackages/System.Threading.Tasks.4.0.11/ref/netcore50/fr/System.Threading.Tasks.xml

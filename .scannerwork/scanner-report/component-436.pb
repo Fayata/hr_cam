@@ -1,0 +1,1 @@
+´ 2cssX™hrEhr_cam/obj/Release/Package/PackageTmp/fontawesome/less/_animated.less

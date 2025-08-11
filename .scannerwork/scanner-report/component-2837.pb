@@ -1,0 +1,1 @@
+• 2xmlXšhr_packages/K4os.Compression.LZ4.Streams.1.3.5/lib/netstandard2.1/K4os.Compression.LZ4.Streams.xml

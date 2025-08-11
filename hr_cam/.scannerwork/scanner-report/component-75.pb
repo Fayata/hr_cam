@@ -1,0 +1,1 @@
+K 2xmlXæ	hr$bin/Microsoft.Extensions.Options.xml

@@ -1,0 +1,1 @@
+ 2xmlX¸Yhrhr_cam/bin/Google.Protobuf.xml

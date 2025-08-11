@@ -1,0 +1,1 @@
+—* 2xmlX‹hrFpackages/System.Threading.4.0.11/ref/netcore50/es/System.Threading.xml

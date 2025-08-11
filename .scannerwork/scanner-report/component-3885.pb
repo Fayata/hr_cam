@@ -1,0 +1,1 @@
+­ 2xmlX®hrQpackages/System.IO.Compression.4.1.0/ref/netstandard1.1/System.IO.Compression.xml

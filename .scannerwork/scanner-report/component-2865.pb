@@ -1,0 +1,1 @@
+± 2xmlX®hr_packages/Microsoft.AspNet.WebApi.Client.6.0.0/lib/netstandard2.0/System.Net.Http.Formatting.xml

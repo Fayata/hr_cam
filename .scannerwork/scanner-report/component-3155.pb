@@ -1,0 +1,1 @@
+Ó 2xmlXšQhr=packages/Newtonsoft.Json.13.0.3/lib/net20/Newtonsoft.Json.xml

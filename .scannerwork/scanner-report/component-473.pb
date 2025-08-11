@@ -1,0 +1,1 @@
+Ù 2cssX«hrBhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_shims.scss

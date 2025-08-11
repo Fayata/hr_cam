@@ -1,0 +1,1 @@
+Ü& 2xmlXû hrfpackages/System.Runtime.InteropServices.4.3.0/ref/netstandard1.3/fr/System.Runtime.InteropServices.xml

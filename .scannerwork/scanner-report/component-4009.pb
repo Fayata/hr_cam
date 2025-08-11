@@ -1,0 +1,1 @@
+© 2xmlXÕhrMpackages/System.IO.Pipelines.5.0.2/lib/netstandard2.0/System.IO.Pipelines.xml

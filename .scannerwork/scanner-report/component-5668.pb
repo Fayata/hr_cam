@@ -1,0 +1,1 @@
+¤, 2xmlXéhrYpackages/System.Xml.ReaderWriter.4.0.11/ref/netcore50/zh-hans/System.Xml.ReaderWriter.xml

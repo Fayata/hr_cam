@@ -1,0 +1,1 @@
+è 2xmlXöhrWpackages/K4os.Compression.LZ4.Streams.1.3.5/lib/net5.0/K4os.Compression.LZ4.Streams.xml

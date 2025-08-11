@@ -1,0 +1,1 @@
+Ó 2cssX:hrFhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_functions.scss

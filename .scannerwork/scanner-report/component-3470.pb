@@ -1,0 +1,1 @@
+Ž 2xmlXóhrFpackages/System.Console.4.0.0/ref/netstandard1.3/ja/System.Console.xml

@@ -1,0 +1,1 @@
+Ÿ, 2xmlXÑhrTpackages/System.Xml.ReaderWriter.4.0.11/ref/netcore50/ja/System.Xml.ReaderWriter.xml

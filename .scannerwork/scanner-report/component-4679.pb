@@ -1,0 +1,1 @@
+Ç$ 2xmlXVhrjpackages/System.Resources.ResourceManager.4.0.1/ref/netcore50/zh-hant/System.Resources.ResourceManager.xml

@@ -1,0 +1,1 @@
+á 2xmlX•6hrApackages/itext.commons.8.0.4/lib/netstandard2.0/itext.commons.xml

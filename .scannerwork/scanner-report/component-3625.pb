@@ -1,0 +1,1 @@
+© 2xmlX¤hrYpackages/System.Diagnostics.Tracing.4.1.0/ref/netcore50/de/System.Diagnostics.Tracing.xml

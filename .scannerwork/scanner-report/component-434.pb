@@ -1,0 +1,1 @@
+² 2cssXhrAhr_cam/obj/Release/Package/PackageTmp/fontawesome/less/solid.less

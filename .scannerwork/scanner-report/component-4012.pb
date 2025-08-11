@@ -1,0 +1,1 @@
+¬ 2xmlXÕhrLpackages/System.IO.Pipelines.5.0.2/ref/netcoreapp2.0/System.IO.Pipelines.xml

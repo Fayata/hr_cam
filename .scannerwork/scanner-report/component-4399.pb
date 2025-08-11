@@ -1,0 +1,1 @@
+¯" 2xmlXÝhrJpackages/System.ObjectModel.4.0.12/ref/netcore50/fr/System.ObjectModel.xml

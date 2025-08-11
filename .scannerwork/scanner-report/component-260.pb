@@ -1,0 +1,1 @@
+„ 2csXhrEhr_cam/obj/Release/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs

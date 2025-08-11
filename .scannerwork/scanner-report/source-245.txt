@@ -1,0 +1,110 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class Login : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+
+        protected void Button1_Click1(object sender, EventArgs e)
+        {
+            //string pwAsli = "kosong";
+            //string hashPw = BCrypt.Net.BCrypt.HashPassword("kosong");
+
+            //string pw = "kosong";
+
+            //Response.Write("<script>alert('"+ hashPw + "');</script>");
+            //return;
+            try
+            {
+                //SqlConnection con = new SqlConnection(strcon);
+                //if (con.State == ConnectionState.Closed)
+                //{
+                //    con.Open();
+                //}
+                //SqlCommand cmd = new SqlCommand("SELECT * from users where email='" + TextBox1.Text.Trim() + "'", con);
+
+                //SqlDataReader dr = cmd.ExecuteReader();
+                //if (dr.HasRows)
+                //{
+                //    string pass = TextBox2.Text.Trim();
+                //    while (dr.Read())
+                //    {
+                //        Response.Write("<script>alert('" + dr.GetValue(2).ToString() + "');</script>");
+                //        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(pass, dr.GetValue(4).ToString());
+                //        if (isPasswordValid == true)
+                //        {
+                //            Response.Write("<script>alert('" + dr.GetValue(2).ToString() + "');</script>");
+                //        }
+                //        else
+                //        {
+                //            Response.Write("<script>alert('Invalid credentials');</script>");
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    Response.Write("<script>alert('Invalid credentials');</script>");
+                //}
+                using (MySqlConnection con = new MySqlConnection(strcon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT u.id, u.name, u.email, r.name as role, u.password from users u join roles r on u.role_id=r.id where u.email=@Email", con))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", TextBox1.Text.Trim());
+
+                        using (MySqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                string pass = TextBox2.Text.Trim();
+                                while (dr.Read())
+                                {
+                                    bool isPasswordValid = BCrypt.Net.BCrypt.Verify(pass, dr.GetValue(4).ToString());
+                                    if (isPasswordValid == true)
+                                    {
+                                        Response.Write("<script>alert('Login Success');</script>");
+                                        Session["email"] = dr.GetValue(2).ToString();
+                                        Session["name"] = dr.GetValue(1).ToString();
+                                        Session["role"] = dr.GetValue(3).ToString();
+                                    }
+                                    else
+                                    {
+                                        Response.Write("<script>alert('Invalid credentials');</script>");
+                                    }
+
+                                }
+                                Response.Redirect("home.aspx");
+                            }
+                            else
+                            {
+                                Response.Write("<script>alert('Invalid credentials');</script>");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Error"+ex+"');</script>");
+            }
+        }
+    }
+}

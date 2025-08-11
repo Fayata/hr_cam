@@ -1,0 +1,1 @@
+Û  2xmlX¹hr?packages/System.Net.Http.4.1.0/ref/net46/fr/System.Net.Http.xml

@@ -1,0 +1,1 @@
+C 2xmlXðhr=bin/Microsoft.Extensions.DependencyInjection.Abstractions.xml

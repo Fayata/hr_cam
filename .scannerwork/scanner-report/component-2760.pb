@@ -1,0 +1,1 @@
+È 2xmlXÈnhr8packages/itext.8.0.4/lib/netstandard2.0/itext.layout.xml

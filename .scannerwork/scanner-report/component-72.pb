@@ -1,0 +1,1 @@
+H 2xmlXæ	hr+hr_cam/bin/Microsoft.Extensions.Options.xml

@@ -1,0 +1,1 @@
+¼ 2xmlXÂ hr-packages/itext.8.0.4/lib/net461/itext.svg.xml

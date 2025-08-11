@@ -1,0 +1,1 @@
+é 2xmlXé:hrBpackages/itext.pdfhtml.5.0.4/lib/netstandard2.0/itext.html2pdf.xml

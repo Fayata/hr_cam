@@ -1,0 +1,1 @@
+› 2xmlXöhr?packages/K4os.Hash.xxHash.1.0.8/lib/net5.0/K4os.Hash.xxHash.xml

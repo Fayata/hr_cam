@@ -1,0 +1,1 @@
+û 2xmlXŸhrMpackages/System.Globalization.4.3.0/ref/netcore50/fr/System.Globalization.xml

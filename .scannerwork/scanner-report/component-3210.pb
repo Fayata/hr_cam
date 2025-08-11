@@ -1,0 +1,1 @@
+Š 2xmlX£]hrVpackages/Syncfusion.Compression.Base.22.1.34/lib/net45/Syncfusion.Compression.Base.xml

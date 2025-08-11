@@ -1,0 +1,1 @@
+‘) 2xmlXÿhrdpackages/System.Text.Encoding.Extensions.4.0.11/ref/netcore50/fr/System.Text.Encoding.Extensions.xml

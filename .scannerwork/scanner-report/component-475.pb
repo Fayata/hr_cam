@@ -1,0 +1,1 @@
+Û 2cssX!hrDhr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_stacked.scss

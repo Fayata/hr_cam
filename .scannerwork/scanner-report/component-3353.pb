@@ -1,0 +1,1 @@
+™ 2xmlXÍhrOpackages/System.Collections.4.0.11/ref/netstandard1.0/fr/System.Collections.xml

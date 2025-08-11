@@ -1,0 +1,1 @@
+ 2xmlXá*hr#bin/itext.bouncy-castle-adapter.xml

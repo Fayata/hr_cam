@@ -1,0 +1,1392 @@
+using Google.Protobuf;
+using iText.Html2pdf;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using Newtonsoft.Json;
+using System;
+using System.Buffers.Text;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Script.Services;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using iText.Layout;
+//using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Kernel.Pdf;
+
+
+namespace hr_cam
+{
+    public partial class statistics : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            TextBox1.TextMode = TextBoxMode.Date;
+            TextBox2.TextMode = TextBoxMode.Date;
+            //TextBox3.TextMode = TextBoxMode.Date;
+            //TextBox4.TextMode = TextBoxMode.Date;
+            if (!IsPostBack)
+            {
+                //Response.Write("<script>alert('Coba masuk')</script>");
+                if (Session["camera_site"] == null)
+                {
+                    string camera_site = "none";
+                    Session["camera_site"] = camera_site;
+                    Label1.Text = "0";
+                    Label2.Text = "0";
+                    //Response.Write("<script>alert('" + Session["from"].ToString() + "')</script>");
+
+                }
+                if (Session["camera_site2"] == null)
+                {
+                    string camera_site2 = "none";
+                    Session["camera_site2"] = camera_site2;
+                    //Response.Write("<script>alert('" + Session["from"].ToString() + "')</script>");
+
+                }
+                if (Session["camera"] == null)
+                {
+                    string camera = "none";
+                    Session["camera"] = camera;
+                    //Response.Write("<script>alert('" + Session["from"].ToString() + "')</script>");
+
+                }
+                if (Session["camera_site2"].ToString() == "none")
+                {
+                    //using (MySqlConnection con = new MySqlConnection(strcon))
+                    //{
+                    //    if (con.State == ConnectionState.Closed)
+                    //    {
+                    //        con.Open();
+                    //    }
+                    //    using (MySqlCommand cmd2 = new MySqlCommand("SELECT * from cameras", con))
+                    //    {
+                    //        cmd2.Prepare();
+                    //        using (MySqlDataReader dr2 = cmd2.ExecuteReader())
+                    //        {
+                    //            if (dr2.HasRows)
+                    //            {
+                    //                DropDownList3.Items.Clear();
+                    //                DropDownList3.Items.Add(new ListItem("", "none"));
+                    //                while (dr2.Read())
+                    //                {
+                    //                    DropDownList3.Items.Add(new ListItem(dr2.GetValue(1).ToString(), dr2.GetValue(0).ToString()));
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                }
+                else
+                {
+                    //string camera_site_id = Session["camera_site2"].ToString();
+                    using (MySqlConnection con = new MySqlConnection(strcon))
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        //using (MySqlCommand cmd2 = new MySqlCommand("SELECT * from cameras where camera_site_id=@camera_site", con))
+                        //{
+                        //    cmd2.Parameters.AddWithValue("@camera_site", camera_site_id);
+                        //    cmd2.Prepare();
+                        //    using (MySqlDataReader dr2 = cmd2.ExecuteReader())
+                        //    {
+                        //        if (dr2.HasRows)
+                        //        {
+                        //            DropDownList3.Items.Clear();
+                        //            DropDownList3.Items.Add(new ListItem("", "none"));
+                        //            while (dr2.Read())
+                        //            {
+                        //                DropDownList3.Items.Add(new ListItem(dr2.GetValue(1).ToString(), dr2.GetValue(0).ToString()));
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //        }
+                        //    }
+                        //}
+                    }
+                }
+
+                if (Session["from"] != null)
+                {
+                }
+                else
+                {
+                    string today = DateTime.Now.ToString("yyyy-MM-dd");
+                    Session["from"] = today;
+
+                }
+                if (Session["to"] != null)
+                {
+                    TextBox2.Text = Session["to"].ToString();
+                }
+                if (Session["from2"] != null)
+                {
+                }
+                else
+                {
+                    string today = DateTime.Now.ToString("yyyy-MM-dd");
+                    Session["from2"] = today;
+
+                }
+                if (Session["to2"] != null)
+                {
+                    //TextBox4.Text = Session["to2"].ToString();
+                }
+                TextBox1.Text = Session["from"].ToString();
+                //TextBox3.Text = Session["from2"].ToString();
+                DropDownList1.Items.Add(new ListItem("", "none"));
+                //DropDownList2.Items.Add(new ListItem("", "none"));
+                using (MySqlConnection con = new MySqlConnection(strcon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT * from camera_sites", con))
+                    {
+                        using (MySqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    DropDownList1.Items.Add(new ListItem(dr.GetValue(1).ToString(), dr.GetValue(0).ToString()));
+                                    //DropDownList2.Items.Add(new ListItem(dr.GetValue(1).ToString(), dr.GetValue(0).ToString()));
+                                }
+                            }
+                            else
+                            {
+                            }
+                        }
+                    }
+                    
+                }
+                DropDownList1.SelectedValue = Session["camera_site"].ToString();
+                //DropDownList2.SelectedValue = Session["camera_site2"].ToString();
+                //DropDownList3.SelectedValue = Session["camera"].ToString();
+                FillCard();
+                FillEventHistory();
+                FillChart1();
+            }
+
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            string camera_site = DropDownList1.SelectedValue;
+            //Response.Write("<script>alert('site " + camera_site + "')</script>");
+            //string dari = TextBox1.Text;
+            //DateTime fromDate;
+            //if (DateTime.TryParse(dari.ToString(), out fromDate))
+            //{
+            //    //Response.Write("<script>alert('masuk semua apa " + dari + "')</script>");
+            //}
+            //else
+            //{
+            //    string today = DateTime.Now.ToString("yyyy-MM-dd");
+            //    dari = today;
+
+            //}
+            string dari = TextBox1.Text;
+            if (!DateTime.TryParse(dari, out _))  // Gunakan out _ untuk mengabaikan nilai keluaran
+            {
+                dari = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            //Response.Write("<script>alert('akhirnya " + dari + "')</script>");
+            string ke = TextBox2.Text;
+            Session["camera_site"] = camera_site;
+            Session["from"] = dari;
+            Session["to"] = ke;
+            Response.Redirect("statistics.aspx");
+        }
+
+
+        private void FillCard()
+        {
+            DateTime fromDate = DateTime.Now;
+            string from = fromDate.ToString("yyyy-MM-dd");
+            string camera = Session["camera_site"].ToString();
+            int jml = 0;
+            int jml2 = 0;
+            using (MySqlConnection con = new MySqlConnection(strcon))
+            {
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                using (MySqlCommand cmd = new MySqlCommand("SELECT COUNT(ce.person_identification_number) AS jumlah FROM camera_events ce JOIN cameras c ON ce.camera_id=c.name JOIN persons p ON ce.person_identification_number=p.identification_number WHERE c.camera_site_id=@camera AND DATE(ce.occurred_at)=@from GROUP BY p.identification_number", con))
+                {
+                    cmd.Parameters.AddWithValue("@camera", camera);
+                    cmd.Parameters.AddWithValue("@from", from);
+                    cmd.Prepare();
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            while (dr.Read())
+                            {
+                                //Response.Write("<script>alert('jumlah" + dr.GetValue(0).ToString() + "')</script>");
+                                jml++;
+                            }
+                            //Response.Write("jumlah" + jml);
+
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+                Label1.Text = jml.ToString();
+                using (MySqlCommand cmd2 = new MySqlCommand("SELECT c.id AS event_id,c.person_identification_number, c.occurred_at, c.type, p.name AS person_name,p.type as person_type, ph.entry_allowed FROM camera_events c JOIN persons p ON c.person_identification_number = p.identification_number LEFT JOIN person_history ph ON p.id = ph.person_id AND ph.created_at = (SELECT MAX(ph2.created_at) FROM person_history ph2 WHERE ph2.person_id = p.id AND ph2.created_at <= c.occurred_at) WHERE c.person_identification_number IS NOT NULL AND ph.entry_allowed!=@entry AND c.camera_id IN (SELECT name FROM cameras WHERE camera_site_id=@camera) AND DATE(c.occurred_at)=@from GROUP BY c.person_identification_number;", con))
+                {
+                    cmd2.Parameters.AddWithValue("@entry", "Y");
+                    cmd2.Parameters.AddWithValue("@camera", camera);
+                    cmd2.Parameters.AddWithValue("@from", from);
+                    cmd2.Prepare();
+                    using (MySqlDataReader dr2 = cmd2.ExecuteReader())
+                    {
+                        if (dr2.HasRows)
+                        {
+                            while (dr2.Read())
+                            {
+                                jml2++;
+                            }
+                            //Response.Write("jumlah2" + jml2);
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+                Label2.Text = jml2.ToString();
+            }
+        }
+
+        private void FillEventHistory()
+        {
+            string camera_site = Session["camera_site"].ToString();
+            string from = Session["from"].ToString();
+            string to = null;
+            if (Session["to"] != null)
+            {
+                to = Session["to"].ToString();
+            }
+
+            DateTime fromDate;
+            DateTime toDate;
+
+            using (MySqlConnection con = new MySqlConnection(strcon))
+            {
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+                if (camera_site == "none") { }
+                else
+                {
+
+                    if (DateTime.TryParse(from.ToString(), out fromDate) && DateTime.TryParse(to, out toDate))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand("SELECT ce.camera_id, ce.type AS event_type,ce.plate_number_string, ce.occurred_at, ce.person_identification_number, ce.image_file, c.location, p.name as person, p.gender, p.type as person_type, cs.name AS site, ce.image_file, ce.plate_number_file FROM camera_events as ce JOIN cameras as c ON ce.camera_id = c.name LEFT JOIN persons as p ON ce.person_identification_number = p.identification_number JOIN camera_sites AS cs ON c.camera_site_id=cs.id WHERE cs.id=@camera_site AND DATE(ce.occurred_at) >=@from AND DATE(ce.occurred_at) <=@to ORDER BY ce.occurred_at ASC", con))
+                        {
+                            cmd.Parameters.AddWithValue("@camera_site", camera_site);
+                            cmd.Parameters.AddWithValue("@from", from);
+                            cmd.Parameters.AddWithValue("@to", to);
+                            cmd.Prepare();
+                            using (MySqlDataReader dr = cmd.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    while (dr.Read())
+                                    {
+                                        Response.Write("<script>console.log('isinya " + dr.GetValue(0).ToString() + "')</script>");
+                                        string image_file = dr["image_file"].ToString();
+                                        string plate_number_file = dr["plate_number_file"].ToString();
+                                        string occurred_at = dr["occurred_at"].ToString();
+                                        string person = dr["person"].ToString();
+                                        string location = dr["location"].ToString();
+                                        string event_type = dr["event_type"].ToString();
+                                        string plate_number_string = dr["plate_number_string"].ToString();
+                                        string site = dr["site"].ToString();
+                                        string person_type = dr["person_type"].ToString();
+                                        if (person_type == "blacklist")
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+
+
+
+                                            Tbody1.Controls.Add(row);
+                                        }
+                                        else
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //row.Cells.Add(infoCell);
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+
+
+
+                                            TableBody.Controls.Add(row);
+                                        }
+                                    }
+                                    dr.Close();
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                    else if (DateTime.TryParse(from.ToString(), out fromDate))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand("SELECT ce.camera_id, ce.type AS event_type,ce.plate_number_string, ce.occurred_at, ce.person_identification_number, ce.image_file, c.location, p.name as person, p.gender, p.type as person_type, cs.name AS site, ce.image_file, ce.plate_number_file FROM camera_events as ce JOIN cameras as c ON ce.camera_id = c.name LEFT JOIN persons as p ON ce.person_identification_number = p.identification_number JOIN camera_sites AS cs ON c.camera_site_id=cs.id WHERE cs.id=@camera_site AND DATE(ce.occurred_at) >=@from ORDER BY ce.occurred_at ASC", con))
+                        {
+                            cmd.Parameters.AddWithValue("@camera_site", camera_site);
+                            cmd.Parameters.AddWithValue("@from", from);
+                            cmd.Prepare();
+                            using (MySqlDataReader dr = cmd.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    while (dr.Read())
+                                    {
+                                        Response.Write("<script>console.log('isinya " + dr.GetValue(0).ToString() + "')</script>");
+                                        string image_file = dr["image_file"].ToString();
+                                        string plate_number_file = dr["plate_number_file"].ToString();
+                                        string occurred_at = dr["occurred_at"].ToString();
+                                        string person = dr["person"].ToString();
+                                        string location = dr["location"].ToString();
+                                        string event_type = dr["event_type"].ToString();
+                                        string plate_number_string = dr["plate_number_string"].ToString();
+                                        string site = dr["site"].ToString();
+                                        string person_type = dr["person_type"].ToString();
+                                        if (person_type == "blacklist")
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+
+
+
+                                            Tbody1.Controls.Add(row);
+                                        }
+                                        else
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //row.Cells.Add(infoCell);
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+                                            //row.Cells.Add(infoCell);
+
+                                            TableBody.Controls.Add(row);
+                                        }
+                                    }
+                                    dr.Close();
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                    else if (DateTime.TryParse(to, out toDate))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand("SELECT ce.camera_id, ce.type AS event_type,ce.plate_number_string, ce.occurred_at, ce.person_identification_number, ce.image_file, c.location, p.name as person, p.gender, p.type as person_type, cs.name AS site, ce.image_file, ce.plate_number_file FROM camera_events as ce JOIN cameras as c ON ce.camera_id = c.name LEFT JOIN persons as p ON ce.person_identification_number = p.identification_number JOIN camera_sites AS cs ON c.camera_site_id=cs.id WHERE cs.id=@camera_site AND DATE(ce.occurred_at) <=@to ORDER BY ce.occurred_at ASC", con))
+                        {
+                            cmd.Parameters.AddWithValue("@camera_site", camera_site);
+                            cmd.Parameters.AddWithValue("@to", to);
+                            cmd.Prepare();
+                            using (MySqlDataReader dr = cmd.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    while (dr.Read())
+                                    {
+                                        Response.Write("<script>console.log('isinya " + dr.GetValue(0).ToString() + "')</script>");
+                                        string image_file = dr["image_file"].ToString();
+                                        string plate_number_file = dr["plate_number_file"].ToString();
+                                        string occurred_at = dr["occurred_at"].ToString();
+                                        string person = dr["person"].ToString();
+                                        string location = dr["location"].ToString();
+                                        string event_type = dr["event_type"].ToString();
+                                        string plate_number_string = dr["plate_number_string"].ToString();
+                                        string site = dr["site"].ToString();
+                                        string person_type = dr["person_type"].ToString();
+                                        if (person_type == "blacklist")
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+
+
+
+                                            Tbody1.Controls.Add(row);
+                                        }
+                                        else
+                                        {
+                                            TableRow row = new TableRow();
+
+                                            TableCell imageCell = new TableCell();
+                                            TableCell imageCell2 = new TableCell();
+                                            TableCell pers = new TableCell();
+                                            int cek = event_type.IndexOf("Plate");
+
+                                            if (cek != -1)
+                                            {
+                                                //Console.WriteLine("Substring ditemukan di indeks: " + index);
+                                                if (!string.IsNullOrEmpty(plate_number_string))
+                                                {
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    string imagePath2 = @"C:\Users\ati\source\repos\hr_cam\hr_cam\plate_number_file\" + plate_number_file;
+                                                    byte[] imageBytes2 = File.ReadAllBytes(imagePath2);
+                                                    string base64String2 = Convert.ToBase64String(imageBytes2);
+                                                    System.Web.UI.WebControls.Image img2 = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String2,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img2.Style.Add("width", "150px");
+                                                    imageCell2.Controls.Add(img2);
+                                                    row.Cells.Add(imageCell);
+                                                    row.Cells.Add(imageCell2);
+                                                }
+                                                pers.Text = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(image_file))
+                                                {
+                                                    string imagePath = @"C:\Users\ati\source\repos\hr_cam\hr_cam\image_file\" + image_file;
+                                                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                                                    string base64String = Convert.ToBase64String(imageBytes);
+                                                    //System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                                                    //img.ImageUrl = "data:image/png;base64," + base64String;
+                                                    //img.AlternateText = "icon title";
+                                                    //img.Style.Add("width", "150px");
+                                                    //imageCell.Controls.Add(img);
+                                                    System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image
+                                                    {
+                                                        ImageUrl = "data:image/png;base64," + base64String,
+                                                        AlternateText = "icon title"
+                                                    };
+                                                    img.Style.Add("width", "150px");
+                                                    imageCell.Controls.Add(img);
+                                                    imageCell.ColumnSpan = 2;
+                                                    row.Cells.Add(imageCell);
+                                                }
+                                                pers.Text = person;
+                                            }
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //TableCell occurred = new TableCell();
+                                            //occurred.Text = occurred_at;
+                                            //TableCell loc = new TableCell();
+                                            //loc.Text = location;
+                                            //TableCell sites = new TableCell();
+                                            //sites.Text = site;
+                                            TableCell occurred = new TableCell() { Text = occurred_at };
+                                            TableCell loc = new TableCell() { Text = location };
+                                            TableCell sites = new TableCell() { Text = site };
+                                            TableCell status = new TableCell() { Text = event_type };
+
+
+                                            //TableCell infoCell = new TableCell();
+                                            //infoCell.Text = "<span style='font-size: 9px;'>" + occurred_at + "</span> <br>" +
+                                            //            "<span style='font-size: 15px;'>" + person + "</span> <br>" +
+                                            //            "<span style='font-size: 10px;'>Zona : " + location + "</span>";
+                                            //row.Cells.Add(infoCell);
+                                            //row.Cells.Add(imageCell);
+                                            row.Cells.Add(occurred);
+                                            row.Cells.Add(loc);
+                                            row.Cells.Add(sites);
+                                            row.Cells.Add(pers);
+                                            row.Cells.Add(status);
+
+                                            TableBody.Controls.Add(row);
+                                        }
+                                    }
+                                    dr.Close();
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+
+
+        
+
+
+        private void FillChart1()
+        {
+            List<string> labels = new List<string>();
+            List<string> cameras = new List<string>();
+            //List<int> face_valid = new List<int>();
+            List<int> face_invalid = new List<int>();
+            List<int> unregister = new List<int>();
+            List<int> blacklist = new List<int>();
+            List<int> jumlah = new List<int>();
+            List<int> jumlah2 = new List<int>();
+            List<int> plate_register = new List<int>();
+            List<int> plate_unregister = new List<int>();
+            string camera_site = Session["camera_site"].ToString();
+            string from = Session["from"].ToString();
+            string to = null;
+            if (Session["to"] != null)
+            {
+                to = Session["to"].ToString();
+            }
+            if (camera_site == "none")
+            {
+
+            }
+            else
+            {
+                DateTime tanggalDibandingkan = DateTime.Parse(from);
+                using (MySqlConnection con1 = new MySqlConnection(strcon))
+                {
+                    if (con1.State == ConnectionState.Closed)
+                    {
+                        con1.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT * from cameras where camera_site_id=@camera_site", con1))
+                    {
+                        cmd.Parameters.AddWithValue("@camera_site", camera_site);
+                        cmd.Prepare();
+                        using (MySqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                labels.Add(dr["location"].ToString());
+                                cameras.Add(dr["name"].ToString());
+                            }
+                        }
+                    }
+                }
+                foreach (var camera in cameras)
+                {
+                    int fv = 0;
+                    int fi = 0;
+                    int pr = 0;
+                    int pu = 0;
+                    int nm = 0;
+                    int bl = 0;
+                    DateTime fromDate;
+                    DateTime toDate;
+                    if (DateTime.TryParse(from.ToString(), out fromDate) && DateTime.TryParse(to, out toDate))
+                    {
+                        using (MySqlConnection con1 = new MySqlConnection(strcon))
+                        {
+                            if (con1.State == ConnectionState.Closed)
+                            {
+                                con1.Open();
+                            }
+
+                            //using (MySqlCommand cmd = new MySqlCommand("SELECT c.*, p.name, p.type as person_type, m.expired_at FROM hr_cam.camera_events AS c LEFT JOIN hr_cam.persons AS p ON c.person_identification_number = p.identification_number LEFT JOIN mcu.mcu AS m ON m.person_id = c.person_identification_number WHERE c.camera_id =@camera AND DATE(c.occurred_at) >=@from AND DATE(c.occurred_at) <=@to", con1))
+                            using (MySqlCommand cmd = new MySqlCommand("SELECT c.id AS event_id,c.person_identification_number, c.occurred_at, c.type, p.name AS person_name,p.type as person_type, ph.entry_allowed FROM camera_events c LEFT JOIN persons p ON c.person_identification_number = p.identification_number LEFT JOIN person_history ph ON p.id = ph.person_id AND ph.created_at = (SELECT MAX(ph2.created_at) FROM person_history ph2 WHERE ph2.person_id = p.id AND ph2.created_at <= c.occurred_at) WHERE c.camera_id=@camera AND DATE(c.occurred_at)>=@from AND DATE(c.occurred_at)<=@to ORDER BY c.occurred_at;", con1))
+                            {
+                                cmd.Parameters.AddWithValue("@camera", camera);
+                                cmd.Parameters.AddWithValue("@from", from);
+                                cmd.Parameters.AddWithValue("@to", to);
+                                cmd.Prepare();
+                                using (MySqlDataReader dr = cmd.ExecuteReader())
+                                {
+                                    while (dr.Read())
+                                    {
+                                        string type = dr["type"].ToString();
+                                        int cek = type.IndexOf("Plate");
+                                        if (cek != -1)
+                                        {
+                                            if (dr["entry_allowed"] != null)
+                                            {
+                                                int cek2 = type.IndexOf("MisMatch");
+                                                if (cek2 != -1)
+                                                {
+                                                    pu++;
+                                                }
+                                                else
+                                                {
+                                                    pr++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                                //Response.Write("not match" + type);
+                                            if (type == "Face Recognition Not Match")
+                                            {
+                                                nm++;
+                                            }
+                                            else
+                                            {
+                                                if (dr["person_type"].ToString() == "blacklist")
+                                                {
+                                                    bl++;
+                                                }
+                                                else
+                                                {
+                                                    if (dr["entry_allowed"] != null)
+                                                    {
+                                                        //byte entryAllowedValue = Convert.ToByte(dr["entry_allowed"]);
+
+                                                        // Membandingkan nilai dengan 1
+                                                        //if (entryAllowedValue == 1)
+                                                        if (dr["entry_allowed"].ToString() == "Y")
+                                                        {
+                                                            fv++;
+                                                        }
+                                                        else
+                                                        {
+                                                            fi++;
+                                                        }
+                                                    }
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+                                    //int jum = fv + fi;
+                                    //int jum = nm + fi + bl;
+                                    int jum = fv;
+                                    int jum2 = pr + pu;
+                                    jumlah.Add(jum);
+                                    jumlah2.Add(jum2);
+                                    //face_valid.Add(fv);
+                                    unregister.Add(nm);
+                                    blacklist.Add(bl);
+                                    face_invalid.Add(fi);
+                                    plate_register.Add(pr);
+                                    plate_unregister.Add(pu);
+                                }
+                            }
+                        }
+                    }
+                    else if (DateTime.TryParse(from.ToString(), out fromDate))
+                    {
+                        using (MySqlConnection con1 = new MySqlConnection(strcon))
+                        {
+                            if (con1.State == ConnectionState.Closed)
+                            {
+                                con1.Open();
+                            }
+
+                            using (MySqlCommand cmd = new MySqlCommand("SELECT c.id AS event_id,c.person_identification_number, c.occurred_at, c.type, p.name AS person_name,p.type as person_type, ph.entry_allowed FROM camera_events c LEFT JOIN persons p ON c.person_identification_number = p.identification_number LEFT JOIN person_history ph ON p.id = ph.person_id AND ph.created_at = (SELECT MAX(ph2.created_at) FROM person_history ph2 WHERE ph2.person_id = p.id AND ph2.created_at <= c.occurred_at) WHERE c.camera_id=@camera AND DATE(c.occurred_at)>=@from ORDER BY c.occurred_at;", con1))
+                            {
+                                cmd.Parameters.AddWithValue("@camera", camera);
+                                cmd.Parameters.AddWithValue("@from", from);
+                                cmd.Prepare();
+                                using (MySqlDataReader dr = cmd.ExecuteReader())
+                                {
+                                    while (dr.Read())
+                                    {
+
+                                        string type = dr["type"].ToString();
+                                        int cek = type.IndexOf("Plate");
+                                        if (cek != -1)
+                                        {
+                                            if (dr["entry_allowed"] != null)
+                                            {
+                                                int cek2 = type.IndexOf("MisMatch");
+                                                if (cek2 != -1)
+                                                {
+                                                    pu++;
+                                                }
+                                                else
+                                                {
+                                                    pr++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (type == "Face Recognition Not Match")
+                                            {
+                                                nm++;
+                                            }
+                                            else
+                                            {
+                                                if (dr["person_type"].ToString() == "blacklist")
+                                                {
+                                                    bl++;
+                                                }
+                                                else
+                                                {
+                                                    if (dr["entry_allowed"] != null)
+                                                    {
+                                                        //byte entryAllowedValue = Convert.ToByte(dr["entry_allowed"]);
+
+                                                        // Membandingkan nilai dengan 1
+                                                        //if (entryAllowedValue == 1)
+                                                        if (dr["entry_allowed"].ToString() == "Y")
+                                                        {
+                                                            fv++;
+                                                        }
+                                                        else
+                                                        {
+                                                            fi++;
+                                                        }
+                                                    }
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+                                    //int jum = fv + fi;
+                                    int jum = nm + fi + bl;
+                                    int jum2 = pr + pu;
+                                    jumlah.Add(jum);
+                                    jumlah2.Add(jum2);
+                                    //face_valid.Add(fv);
+                                    unregister.Add(nm);
+                                    blacklist.Add(bl);
+                                    face_invalid.Add(fi);
+                                    plate_register.Add(pr);
+                                    plate_unregister.Add(pu);
+                                }
+                            }
+                        }
+                    }
+                    else if (DateTime.TryParse(to, out toDate))
+                    {
+                        using (MySqlConnection con1 = new MySqlConnection(strcon))
+                        {
+                            if (con1.State == ConnectionState.Closed)
+                            {
+                                con1.Open();
+                            }
+
+                            using (MySqlCommand cmd = new MySqlCommand("SELECT c.id AS event_id,c.person_identification_number, c.occurred_at, c.type, p.name AS person_name,p.type as person_type, ph.entry_allowed FROM camera_events c LEFT JOIN persons p ON c.person_identification_number = p.identification_number LEFT JOIN person_history ph ON p.id = ph.person_id AND ph.created_at = (SELECT MAX(ph2.created_at) FROM person_history ph2 WHERE ph2.person_id = p.id AND ph2.created_at <= c.occurred_at) WHERE c.camera_id=@camera AND DATE(c.occurred_at)<=@to ORDER BY c.occurred_at;", con1))
+                            {
+                                cmd.Parameters.AddWithValue("@camera", camera);
+                                cmd.Parameters.AddWithValue("@to", to);
+                                cmd.Prepare();
+                                using (MySqlDataReader dr = cmd.ExecuteReader())
+                                {
+                                    while (dr.Read())
+                                    {
+
+                                        string type = dr["type"].ToString();
+                                        int cek = type.IndexOf("Plate");
+                                        if (cek != -1)
+                                        {
+                                            if (dr["entry_allowed"] != null)
+                                            {
+                                                int cek2 = type.IndexOf("MisMatch");
+                                                if (cek2 != -1)
+                                                {
+                                                    pu++;
+                                                }
+                                                else
+                                                {
+                                                    pr++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (type == "Face Recognition Not Match")
+                                            {
+                                                nm++;
+                                            }
+                                            else
+                                            {
+                                                if (dr["person_type"].ToString() == "blacklist")
+                                                {
+                                                    bl++;
+                                                }
+                                                else
+                                                {
+                                                    if (dr["entry_allowed"] != null)
+                                                    {
+                                                        //byte entryAllowedValue = Convert.ToByte(dr["entry_allowed"]);
+
+                                                        // Membandingkan nilai dengan 1
+                                                        //if (entryAllowedValue == 1)
+                                                        if (dr["entry_allowed"].ToString() == "Y")
+                                                        {
+                                                            fv++;
+                                                        }
+                                                        else
+                                                        {
+                                                            fi++;
+                                                        }
+                                                    }
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+                                    //int jum = fv + fi;
+                                    int jum = nm + fi + bl;
+                                    int jum2 = pr + pu;
+                                    jumlah.Add(jum);
+                                    jumlah2.Add(jum2);
+                                    //face_valid.Add(fv);
+                                    unregister.Add(nm);
+                                    blacklist.Add(bl);
+                                    face_invalid.Add(fi);
+                                    plate_register.Add(pr);
+                                    plate_unregister.Add(pu);
+                                }
+                            }
+                        }
+                    }
+
+                    //foreach (var innerList in list2D)
+                    //{
+
+                    //    // Iterasi melalui list dalam list dua dimensi
+                    //    foreach (var item in innerList)
+                    //    {
+                    //        // Cek tipe data untuk mengetahui cara akses
+                    //        if (item is int)
+                    //        {
+                    //            //Response.Write("ID: " + item);
+                    //            var id = item;
+                    //        }
+                    //        else if (item is String)
+                    //        {
+                    //            //Response.Write("Occurred At: " + item);
+                    //            var occurred_at = item;
+                    //        }
+                    //    }
+                    //}
+
+                }
+
+                var serializer = new JavaScriptSerializer();
+                var labelsJson = serializer.Serialize(labels);
+                var unregisterJson = serializer.Serialize(unregister);
+                var faceInvalidJson = serializer.Serialize(face_invalid);
+                var blacklistJson = serializer.Serialize(blacklist);
+                var jumlahJson = serializer.Serialize(jumlah);
+                var labels2Json = serializer.Serialize(labels);
+                var plateRegisterJson = serializer.Serialize(plate_register);
+                var plateUnregisterJson = serializer.Serialize(plate_unregister);
+                var jumlah2Json = serializer.Serialize(jumlah2);
+                ScriptManager.RegisterStartupScript(this, GetType(), "ChartScript", $"fillChart2({labelsJson}, {unregisterJson}, {faceInvalidJson}, {blacklistJson}, {jumlahJson});", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "ChartScript2", $"fillChart({labels2Json}, {plateRegisterJson}, {plateUnregisterJson},{jumlah2Json});", true);
+            }
+
+
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            //string camera_site2 = DropDownList2.SelectedValue;
+            //string camera = DropDownList3.SelectedValue;
+            //string dari2 = TextBox3.Text;
+            //if (DateTime.TryParse(dari2.ToString(), out fromDate))
+            //{
+            //    //Response.Write("<script>alert('masuk semua apa " + dari + "')</script>");
+            //}
+            //else
+            //{
+            //    string today = DateTime.Now.ToString("yyyy-MM-dd");
+            //    dari2 = today;
+
+            //}
+            //Response.Write("<script>alert('akhirnya " + dari + "')</script>");
+            //string ke = TextBox4.Text;
+            //Session["camera_site2"] = camera_site2;
+            //Session["camera"] = camera;
+            //Session["from2"] = dari2;
+            //Session["to2"] = ke;
+            //Response.Redirect("report_dashboard.aspx");
+            // Mendapatkan markup HTML dari halaman ExportToPdf.aspx
+            StringWriter sw = new StringWriter();
+            Server.Execute("report_dashboard.aspx", sw);
+            string htmlContent = sw.ToString();
+
+            // Membuat objek PdfWriter untuk menulis ke PDF
+            string outputFilePath = Server.MapPath("~/Output.pdf");
+            PdfWriter writer = new PdfWriter(outputFilePath);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            // Menambahkan markup HTML ke PDF
+            HtmlConverter.ConvertToPdf(htmlContent, pdf, new ConverterProperties());
+
+            // Menutup dokumen PDF
+            document.Close();
+
+            // Mengarahkan pengguna untuk mengunduh file PDF yang dihasilkan
+            Response.ContentType = "application/pdf";
+            Response.AppendHeader("Content-Disposition", "attachment; filename=Report Event History.pdf");
+            Response.TransmitFile(outputFilePath);
+            Response.End();
+        }
+
+        protected void DropDownList2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //string selectedValue = DropDownList2.SelectedValue;
+            //LoadDropdown2(selectedValue);
+        }
+
+       
+    }
+}

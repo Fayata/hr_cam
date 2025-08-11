@@ -1,0 +1,1 @@
+J 2xmlXôhr.hr_cam/bin/Microsoft.Extensions.Primitives.xml

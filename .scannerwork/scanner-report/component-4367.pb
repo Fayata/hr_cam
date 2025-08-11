@@ -1,0 +1,1 @@
+è" 2xmlXΩhrUpackages/System.Numerics.Vectors.4.5.0/ref/netstandard1.0/System.Numerics.Vectors.xml

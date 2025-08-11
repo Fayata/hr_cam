@@ -1,0 +1,1 @@
+ñ  2xmlX¹hrHpackages/System.Net.Http.4.1.0/ref/netstandard1.1/fr/System.Net.Http.xml

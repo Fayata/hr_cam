@@ -1,0 +1,1 @@
+∞ 2xmlXç∆hr0packages/itext.8.0.4/lib/net461/itext.kernel.xml

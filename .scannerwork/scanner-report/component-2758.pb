@@ -1,0 +1,1 @@
+Æ 2xmlX˜Æhr8packages/itext.8.0.4/lib/netstandard2.0/itext.kernel.xml

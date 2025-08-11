@@ -1,0 +1,203 @@
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class edit_camera : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["email"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                if (Session["role"].ToString() == "Admin")
+                {
+                    if (!IsPostBack)
+                    {
+                        string id = Request.QueryString["id"];
+                        if (id != "")
+                        {
+                            //TextBox5.Text = "";
+                            //TextBox3.TextMode = TextBoxMode.Password;
+                            using (MySqlConnection con = new MySqlConnection(strcon))
+                            {
+                                if (con.State == ConnectionState.Closed)
+                                {
+                                    con.Open();
+                                }
+
+                                using (MySqlCommand cmd = new MySqlCommand("SELECT * from camera_sites", con))
+                                {
+                                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                                    {
+                                        if (dr.HasRows)
+                                        {
+                                            while (dr.Read())
+                                            {
+                                                DropDownList1.Items.Add(new ListItem(dr.GetValue(1).ToString(), dr.GetValue(0).ToString()));
+                                            }
+                                        }
+                                        else
+                                        {
+                                        }
+                                    }
+                                }
+                                using (MySqlCommand cmd3 = new MySqlCommand("SELECT * from cameras where id='" + id + "'", con))
+                                {
+                                    using (MySqlDataReader dr3 = cmd3.ExecuteReader())
+                                    {
+                                        if (dr3.HasRows)
+                                        {
+                                            while (dr3.Read())
+                                            {
+                                                TextBox6.Text = dr3["id"].ToString();
+                                                DropDownList1.SelectedValue = dr3["camera_site_id"].ToString();
+                                                TextBox1.Text = dr3["name"].ToString();
+                                                TextBox2.Text = dr3["location"].ToString();
+                                                TextBox4.Text = dr3["url"].ToString();
+                                                TextBox5.Text = dr3["username"].ToString();
+                                                TextBox7.Text = dr3["password"].ToString();
+                                                //Response.Write("<script>alert('" + dr3["password"].ToString() +"');</script>");
+                                                //TextBox3.TextMode = TextBoxMode.Password;
+                                            }
+                                        }
+                                        else
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                            Response.Redirect("camera.aspx");
+                            Response.Write("<script>alert('ID camera invalid');</script>");
+                        }
+                        //Response.Write("ID: " + id);
+                    }
+                }
+                else
+                {
+                    Response.Redirect("home.aspx");
+                }
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+
+            UpdateCamera();
+        }
+
+        protected void TogglePasswordVisibility(string inputId, string iconId)
+        {
+            var passwordInput = FindControl(inputId) as TextBox;
+            var visibilityIcon = FindControl(iconId) as HtmlGenericControl;
+
+            if (passwordInput.TextMode == TextBoxMode.Password)
+            {
+                passwordInput.TextMode = TextBoxMode.SingleLine;
+                visibilityIcon.InnerText = "visibility_off";
+            }
+            else
+            {
+                passwordInput.TextMode = TextBoxMode.Password;
+                visibilityIcon.InnerText = "visibility";
+            }
+        }
+
+        void UpdateCamera()
+        {
+            try
+            {
+                string id = TextBox6.Text;
+                string camera_site_id = DropDownList1.SelectedValue;
+                string name = TextBox1.Text;
+                string location = TextBox2.Text;
+                string url = TextBox4.Text;
+                string username = TextBox5.Text;
+                string password = TextBox3.Text;
+                    //using (MySqlConnection con = new MySqlConnection(strcon))
+                    //{
+                    //    if (con.State == ConnectionState.Closed)
+                    //    {
+                    //        con.Open();
+                    //    }
+                    //string old_name="";
+                    //    using (MySqlCommand cmd = new MySqlCommand("SELECT * from cameras where id=@id", con))
+                    //    {
+                    //        cmd.Parameters.AddWithValue("@id", id);
+                    //        cmd.Prepare();
+                    //        using (MySqlDataReader dr = cmd.ExecuteReader())
+                    //        {
+                    //            while (dr.Read())
+                    //            {
+                    //            old_name += dr["name"].ToString();
+                    //            }
+                    //        }
+                    //    }
+                    //using (MySqlCommand cmd = new MySqlCommand("UPDATE camera_events set camera_id='" + name + "' where camera_id='" + old_name + "'", con))
+                    //{
+                    //    //cmd.Parameters.AddWithValue("@id", id);
+                    //    //cmd.Parameters.AddWithValue("@name", name);
+                    //    //cmd.Parameters.AddWithValue("@email", email);
+                    //    //cmd.Parameters.AddWithValue("@password", password);
+                    //    //cmd.Parameters.AddWithValue("@role_id", role_id);
+                    //    //cmd.Parameters.AddWithValue("@site_id", site_id);
+
+                    //    cmd.ExecuteNonQuery();
+                    //    con.Close();
+                    //    //Response.Redirect("user_admin.aspx");
+
+                    //    //Session["Message"] = new Tuple<string, string>("update", "Data berhasil diubah.");
+                    //    //Session["update"] = "Camera have been succesfully changed.";
+                    //    //Response.Redirect("camera.aspx");
+                    //}
+                    //}
+                using (MySqlConnection con = new MySqlConnection(strcon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand("UPDATE cameras set camera_site_id='" + camera_site_id + "',name='" + name + "',location='" + location + "',url='" + url + "',username='" + username + "',password='" + password + "' where id='" + id + "'", con))
+                    {
+                        //cmd.Parameters.AddWithValue("@id", id);
+                        //cmd.Parameters.AddWithValue("@name", name);
+                        //cmd.Parameters.AddWithValue("@email", email);
+                        //cmd.Parameters.AddWithValue("@password", password);
+                        //cmd.Parameters.AddWithValue("@role_id", role_id);
+                        //cmd.Parameters.AddWithValue("@site_id", site_id);
+
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        //Response.Redirect("user_admin.aspx");
+
+                        //Session["Message"] = new Tuple<string, string>("update", "Data berhasil diubah.");
+                        Session["update"] = "Camera have been succesfully changed.";
+                        Response.Redirect("camera.aspx");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+            }
+        }
+
+    }
+}

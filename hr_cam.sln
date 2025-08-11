@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hr_cam", "hr_cam\hr_cam.csproj", "{8F715438-10F1-4F84-B6E2-FEAE686D5535}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F715438-10F1-4F84-B6E2-FEAE686D5535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F715438-10F1-4F84-B6E2-FEAE686D5535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F715438-10F1-4F84-B6E2-FEAE686D5535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F715438-10F1-4F84-B6E2-FEAE686D5535}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4ED174D-B2BC-4B18-B408-15A40CC54F67}
+	EndGlobalSection
+EndGlobal

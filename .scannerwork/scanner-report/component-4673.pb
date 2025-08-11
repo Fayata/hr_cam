@@ -1,0 +1,1 @@
+Á$ 2xmlX[hrepackages/System.Resources.ResourceManager.4.0.1/ref/netcore50/ja/System.Resources.ResourceManager.xml

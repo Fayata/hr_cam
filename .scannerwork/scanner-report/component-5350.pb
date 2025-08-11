@@ -1,0 +1,1 @@
+æ) 2xmlXÌhrfpackages/System.Text.RegularExpressions.4.1.0/ref/netstandard1.3/fr/System.Text.RegularExpressions.xml

@@ -1,0 +1,1 @@
+Î 2xmlXû4hr6packages/itext.8.0.4/lib/netstandard2.0/itext.sign.xml

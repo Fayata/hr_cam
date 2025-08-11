@@ -1,0 +1,1 @@
+¢ 2xmlX¸YhrFpackages/Google.Protobuf.3.25.1/lib/netstandard2.0/Google.Protobuf.xml

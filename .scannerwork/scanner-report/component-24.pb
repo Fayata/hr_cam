@@ -1,0 +1,1 @@
+ 2xmlXÅhrhr_cam/bin/itext.barcodes.xml

@@ -1,0 +1,1 @@
+Ø 2xmlXžhrdpackages/System.IO.Compression.ZipFile.4.0.1/ref/netstandard1.3/ja/System.IO.Compression.ZipFile.xml

@@ -1,0 +1,1 @@
+§! 2xmlXœhrPpackages/System.Net.Primitives.4.0.11/ref/netcore50/ko/System.Net.Primitives.xml

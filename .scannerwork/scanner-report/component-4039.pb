@@ -1,0 +1,1 @@
+Ç 2xmlXêhr;packages/System.Linq.4.1.0/ref/netcore50/fr/System.Linq.xml

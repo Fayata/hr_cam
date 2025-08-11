@@ -1,0 +1,1 @@
+ 2xmlXá*hr*hr_cam/bin/itext.bouncy-castle-adapter.xml

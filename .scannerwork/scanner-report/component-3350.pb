@@ -1,0 +1,1 @@
+– 2xmlXÿhrOpackages/System.Collections.4.0.11/ref/netcore50/zh-hant/System.Collections.xml

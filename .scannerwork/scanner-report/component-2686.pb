@@ -1,0 +1,1 @@
+þ 2xmlX©hr=packages/BCrypt.Net-Next.4.0.3/lib/net5.0/BCrypt.Net-Next.xml

@@ -1,0 +1,1 @@
+ì 2xmlX¢hrOpackages/Newtonsoft.Json.Bson.1.0.2/lib/netstandard1.3/Newtonsoft.Json.Bson.xml

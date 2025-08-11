@@ -1,0 +1,1 @@
+Â  2xmlXãhrApackages/System.Memory.4.5.5/lib/netstandard2.0/System.Memory.xml

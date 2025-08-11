@@ -1,0 +1,1 @@
+ƒ! 2xmlX¿hrMpackages/System.Net.Http.4.1.0/ref/netstandard1.3/zh-hans/System.Net.Http.xml

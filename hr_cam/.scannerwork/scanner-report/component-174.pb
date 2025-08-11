@@ -1,0 +1,1 @@
+® 2xmlX®hr"bin/System.Net.Http.Formatting.xml

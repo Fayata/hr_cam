@@ -1,0 +1,1 @@
+€ 2xmlX8hrRpackages/System.Diagnostics.Tools.4.0.1/ref/netcore50/System.Diagnostics.Tools.xml

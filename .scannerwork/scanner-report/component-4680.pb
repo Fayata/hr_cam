@@ -1,0 +1,1 @@
+È$ 2xmlXPhrjpackages/System.Resources.ResourceManager.4.0.1/ref/netstandard1.0/de/System.Resources.ResourceManager.xml

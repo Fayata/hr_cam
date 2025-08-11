@@ -1,0 +1,1 @@
+³ 2cssXhrDhr_cam/obj/Release/Package/PackageTmp/fontawesome/less/v4-shims.less

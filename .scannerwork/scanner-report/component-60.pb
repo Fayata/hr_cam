@@ -1,0 +1,1 @@
+< 2xmlXàhr,hr_cam/bin/Microsoft.Bcl.AsyncInterfaces.xml

@@ -1,0 +1,1 @@
+“ 2xmlXáhrKpackages/System.Console.4.0.0/ref/netstandard1.3/zh-hans/System.Console.xml

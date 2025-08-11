@@ -1,0 +1,1 @@
+≥ 2xmlXèhrfpackages/System.Globalization.Calendars.4.0.1/ref/netstandard1.3/it/System.Globalization.Calendars.xml

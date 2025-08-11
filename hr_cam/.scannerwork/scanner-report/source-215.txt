@@ -1,0 +1,152 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class camera : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            FillTableFromDatabase();
+            if (!IsPostBack)
+            {
+
+                if (Session["success"] != null)
+                {
+                    // Menampilkan pesan sukses
+                    successMessageDiv.Visible = true; // Menampilkan div pesan sukses
+                    successMessage.Text = Session["success"].ToString(); // Menampilkan pesan sukses
+                    Session.Remove("success"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan sukses
+                    successMessageDiv.Attributes.Add("style", "display:block;");
+                }
+                else if (Session["fail"] != null)
+                {
+                    // Menampilkan pesan gagal
+                    failMessageDiv.Visible = true; // Menampilkan div pesan gagal
+                    failMessage.Text = Session["fail"].ToString(); // Menampilkan pesan gagal
+                    Session.Remove("fail"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan gagal
+                    failMessageDiv.Attributes.Add("style", "display:block;");
+                }
+                else if (Session["update"] != null)
+                {
+                    // Menampilkan pesan update
+                    updateMessageDiv.Visible = true; // Menampilkan div pesan update
+                    updateMessage.Text = Session["update"].ToString(); // Menampilkan pesan update
+                    Session.Remove("update"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan update
+                    updateMessageDiv.Attributes.Add("style", "display:block;");
+
+                    //Response.Write("ID: " + updateMessage);
+                }
+
+                //FillDataTable();
+            }
+        }
+
+
+
+
+
+        private void FillTableFromDatabase()
+        {
+            using (MySqlConnection con = new MySqlConnection(strcon))
+            {
+                con.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("SELECT c.id, c.name, c.location, c.url, c.username, cs.name as site FROM cameras c join camera_sites cs on c.camera_site_id=cs.id", con))
+                {
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name = dr["name"].ToString();
+                            string location = dr["location"].ToString();
+                            string url = dr["url"].ToString();
+                            string username = dr["username"].ToString();
+                            string site = dr["site"].ToString();
+                            string cameraId = dr["id"].ToString();
+
+                            TableRow row = new TableRow();
+
+                            TableCell siteCell = new TableCell() { Text = site };
+                            row.Cells.Add(siteCell);
+
+                            TableCell nameCell = new TableCell() { Text = name };
+                            row.Cells.Add(nameCell);
+
+                            TableCell locationCell = new TableCell() { Text = location };
+                            row.Cells.Add(locationCell);
+
+
+                            TableCell urlCell = new TableCell() { Text = url };
+                            row.Cells.Add(urlCell);
+                            
+                            TableCell usernameCell = new TableCell() { Text = username };
+                            row.Cells.Add(usernameCell);
+
+
+                            string editUrl = "edit_camera.aspx?id=" + cameraId;
+                            string deleteUrl = "delete_camera.aspx?id=" + cameraId;
+
+                            TableCell actionCell = new TableCell();
+                            actionCell.Style["width"] = "200px"; // Adjust width as needed
+                            LiteralControl actionButtons = new LiteralControl();
+
+                            // Create the Edit button HTML
+                            string editButtonHtml = "<a href='" + editUrl + "' class='btn btn-warning'>";
+                            editButtonHtml += "<span class='btn-icon'><span class='material-icons'>edit</span></span>";
+                            editButtonHtml += "</a>";
+
+                            // Create the Delete button HTML
+                            string deleteButtonHtml = "<a href=\"" + deleteUrl + "\" class=\"btn btn-danger\" onclick=\"return confirm('Are you sure?');\">";
+                            deleteButtonHtml += "<span class='btn-icon'><span class='material-icons'>delete</span></span>";
+                            deleteButtonHtml += "</a>";
+
+                            // Combine Edit and Delete buttons
+                            actionButtons.Text = editButtonHtml + " " + deleteButtonHtml;
+
+                            // Add the combined buttons to the cell
+                            actionCell.Controls.Add(actionButtons);
+                            row.Cells.Add(actionCell);
+
+
+                            TableBody.Controls.Add(row);
+                        }
+                        dr.Close();
+                    }
+                }
+            }
+        }
+
+        protected void EditButton_Command(object sender, CommandEventArgs e)
+        {
+            //Response.Write("<script>alert('Edit '"+name+");</script>");
+            string name = e.CommandArgument.ToString();
+
+            // Lakukan apa yang diperlukan saat tombol edit ditekan, misalnya, arahkan pengguna ke halaman edit dengan ID atau parameter lainnya
+        }
+
+        protected void DeleteButton_Command(object sender, CommandEventArgs e)
+        {
+            string name = e.CommandArgument.ToString();
+            // Lakukan apa yang diperlukan saat tombol hapus ditekan, misalnya, hapus data dengan ID atau parameter lainnya
+        }
+
+
+    }
+}

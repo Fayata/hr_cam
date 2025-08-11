@@ -1,0 +1,1 @@
+ù 2xmlXÆhrOpackages/System.IO.Compression.4.1.0/ref/netcore50/it/System.IO.Compression.xml

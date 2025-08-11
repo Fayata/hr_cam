@@ -1,0 +1,1 @@
+Ä 2xmlX¤‘hr;packages/MySql.Data.8.4.0/lib/netstandard2.1/MySql.Data.xml

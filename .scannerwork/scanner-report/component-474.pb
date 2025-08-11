@@ -1,0 +1,1 @@
+Ú 2cssXhrChr_cam/obj/Release/Package/PackageTmp/fontawesome/scss/_sizing.scss

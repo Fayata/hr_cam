@@ -1,0 +1,1 @@
+¶ 2xmlXŸhrTpackages/System.IO.Compression.4.1.0/ref/netstandard1.3/ru/System.IO.Compression.xml

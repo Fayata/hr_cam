@@ -1,0 +1,1 @@
+À 2xmlX7hrIpackages/itext.8.0.4/lib/netstandard2.0/itext.bouncy-castle-connector.xml

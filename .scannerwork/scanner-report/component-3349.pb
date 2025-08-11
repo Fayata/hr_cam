@@ -1,0 +1,1 @@
+• 2xmlXÕhrOpackages/System.Collections.4.0.11/ref/netcore50/zh-hans/System.Collections.xml

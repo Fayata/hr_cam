@@ -1,0 +1,1 @@
+û 2csXhrChr_cam/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs

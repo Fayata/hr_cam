@@ -1,0 +1,1 @@
+ð' 2xmlXÌhrtpackages/System.Security.Cryptography.Encoding.4.0.0/ref/netstandard1.3/it/System.Security.Cryptography.Encoding.xml

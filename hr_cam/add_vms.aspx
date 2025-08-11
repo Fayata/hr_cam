@@ -1,0 +1,96 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="add_vms.aspx.cs" Inherits="hr_cam.add_vms" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                            <h5 class="text-white text-capitalize ps-3">Add Video Management System</h5>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div style="margin: 15px;">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">URL / IP Address</label>
+                                        <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Username</label>
+                                    <asp:TextBox ID="TextBox2" CssClass="form-control" runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                    <label class="form-label">Password</label>
+                                <div class="input-group mb-3">
+                                    <asp:TextBox ID="TextBox3" CssClass="form-control" runat="server" TextMode="Password" ClientIDMode="Static"></asp:TextBox>
+                                    <span class="input-group-text">
+                                        <%--<span class="material-icons" onclick="TogglePasswordVisibility('TextBox3', 'visibilityIcon1')" id="visibilityIcon1">visibility</span>--%>
+                                        <i class="fa-solid fa-eye" onclick="TogglePasswordVisibility('TextBox3', 'visibilityIcon1')" id="visibilityIcon1"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <asp:Button ID="Button1" CssClass="btn btn-success" runat="server" Text="Save" OnClick="Button1_Click" />
+                                <%--<asp:Button ID="Button1" CssClass="btn btn-success" runat="server" Text="Save" OnClick="Button1_Click" />--%>
+                                 <%--<button type="button" CssClass="btn btn-success" onclick="uploadData()">Save</button>--%>
+                                <%--<a href="#" onclick="uploadData()" class="btn btn-success">Save</a>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function TogglePasswordVisibility(inputId, iconId) {
+            var passwordInput = document.getElementById(inputId);
+            //alert(passwordInput);
+            var visibilityIcon = document.getElementById(iconId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                visibilityIcon.classList.remove("fa-eye");
+                visibilityIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                visibilityIcon.classList.remove("fa-eye-slash");
+                visibilityIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+    <script type="text/javascript">
+
+        <%--function uploadData() {
+            const urlValue = document.getElementById('<%= TextBox1.ClientID %>').value;
+
+            const params = new URLSearchParams();
+            params.append("endpoint", urlValue);
+
+            fetch('http://localhost:3000/v1/network-video-recorders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: params.toString()
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Gagal mengirim data');
+                    }
+                    console.log('Data berhasil dikirim');
+                    alert("Data Sent Successfully");
+                    window.location.href = 'vms.aspx'; // Redirect to vms.aspx
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Gagal mengirim data');
+                });
+        }--%>
+    </script>
+</asp:Content>

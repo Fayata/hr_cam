@@ -1,0 +1,1 @@
+€" 2xmlX½hrdpackages/System.Numerics.Vectors.4.5.0/lib/portable-net45+win8+wp8+wpa81/System.Numerics.Vectors.xml

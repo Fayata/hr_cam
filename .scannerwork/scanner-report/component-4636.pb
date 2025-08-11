@@ -1,0 +1,1 @@
+œ$ 2xmlXVhrjpackages/System.Reflection.TypeExtensions.4.3.0/ref/netstandard1.5/es/System.Reflection.TypeExtensions.xml

@@ -1,0 +1,1 @@
+° 2cssXhrGhr_cam/obj/Release/Package/PackageTmp/fontawesome/less/fontawesome.less

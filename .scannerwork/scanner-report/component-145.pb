@@ -1,0 +1,1 @@
+‘ 2xmlX£]hr*hr_cam/bin/Syncfusion.Compression.Base.xml

@@ -1,0 +1,1 @@
+Ì$ 2xmlX[hrjpackages/System.Resources.ResourceManager.4.0.1/ref/netstandard1.0/ja/System.Resources.ResourceManager.xml

@@ -1,0 +1,1 @@
+Å 2xmlXº	hrGpackages/K4os.Compression.LZ4.1.3.5/lib/net462/K4os.Compression.LZ4.xml

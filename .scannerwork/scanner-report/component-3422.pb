@@ -1,0 +1,1 @@
+ﬁ 2xmlXÅ	hrdpackages/System.Collections.Concurrent.4.3.0/ref/netstandard1.3/de/System.Collections.Concurrent.xml

@@ -1,0 +1,1 @@
+¨, 2xmlXãhrYpackages/System.Xml.ReaderWriter.4.0.11/ref/netstandard1.0/fr/System.Xml.ReaderWriter.xml

@@ -1,0 +1,426 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="dpo.aspx.cs" Inherits="hr_cam.dpo" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .success-message {
+    background-color: #DFF0D8; /* Warna background untuk pesan sukses */
+    /* Tambahan gaya sesuai kebutuhan */
+}
+
+    .error-message {
+    background-color: #F2DEDE; /* Warna background untuk pesan gagal */
+    /* Tambahan gaya sesuai kebutuhan */
+    }
+
+    </style>
+    <%--<script>
+        function confirmDelete() {
+            // Menampilkan kotak konfirmasi
+            var result = confirm("Apakah Anda yakin ingin menghapus item ini?");
+
+            // Memeriksa pilihan pengguna
+            if (result) {
+                // Pengguna memilih OK
+                alert("Item telah dihapus.");
+                // Logika penghapusan item bisa ditambahkan di sini
+            } else {
+                // Pengguna memilih Cancel
+                alert("Penghapusan dibatalkan.");
+            }
+        }
+    </script>--%>
+<%--    <script>
+        async function confirmDelete(dpoId) {
+            var result = confirm("Apakah Anda yakin ingin menghapus item ini?");
+
+            if (result) {
+                try {
+                    const response = await fetch(`http://localhost:3000/dpo/${dpoId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    alert("Item telah dihapus.");
+                    console.log(data);  // Log data respon jika ada
+
+                } catch (error) {
+                    console.error('There was a problem with the fetch operation:', error);
+                    //alert('Gagal menghapus item. Silakan coba lagi nanti.'+error);
+                }
+            } else {
+                alert("Penghapusan dibatalkan.");
+            }
+        }
+    </script>--%>
+    
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h5 class="text-white text-capitalize ps-3">Face Recognition DPO</h5>
+                <%--<h5 class="text-white text-capitalize ps-3">DPO</h5>--%>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div id="successMessageDiv" runat="server" class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 15px; color: white; display: none;">
+                        <asp:Literal ID="successMessage" runat="server"></asp:Literal>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div id="failMessageDiv" runat="server" class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 15px; color: white; display: none;">
+                        <asp:Literal ID="failMessage" runat="server"></asp:Literal>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div id="updateMessageDiv" runat="server" class="alert alert-warning alert-dismissible fade show" role="alert" style="margin: 15px; color: white; display: none;">
+                        <asp:Literal ID="updateMessage" runat="server"></asp:Literal>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body px-0 pb-2">
+                <div class="row justify-content-right mb-5">
+                    <div class="hide">
+                        <input type="file" id="csv-file" style="display:none;"/>
+                    </div>
+                    <div class="hide">
+                        <input type="file" id="image-file" style="display:none;"/>
+                    </div>
+                    <div class="hide">
+                        <input type="file" id="image-files" multiple style="display:none;"/>
+                    </div>
+                    <div class="col-3" style="flex: 0 0 auto;width: 22%;">
+                        <a href="#" onclick="selectImages()" class="btn btn-primary">Upload Image</a>
+                        <a href="#" onclick="selectCSV()" class="btn btn-success">Import CSV</a>
+                        <%--<a href="javascript:void(0);" onclick="uploadFile()" class="btn btn-success">Import CSV</a>
+                        <input type="file" id="fileInput" style="display:none;" onchange="handleFileUpload(event)" />--%>
+                        <%--<a href="javascript:void(0);" onclick="uploadFile()">Upload File</a>
+                        <input type="file" id="fileInput" style="display:none;" onchange="handleFileUpload(event)" />--%>
+
+                        <%--<form id="uploadForm" runat="server" method="post" enctype="multipart/form-data">
+                            <asp:FileUpload ID="fileUpload" runat="server" />
+                            <asp:Button ID="btnUpload" runat="server" Text="Upload File" OnClick="UploadFile" />
+                        </form>--%>
+                        <%--<a id="uploadLink" href="#" class="btn btn-success">Import CSV</a>--%>
+                        <%--<a id="uploadLink" href="#">Upload File</a>--%>
+
+                    </div>
+                </div>
+              <div class="table-responsive p-0" style="margin:5px;">
+                  <table id="DataTable" class="table table-striped table-bordered"  aria-describedby="dpo_list">
+                      <thead>
+                        <tr>
+                            <th>Identification Number</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th></th>
+                            <th style="width: 10%;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody runat="server" id="TableBody">
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        // Function to refresh the page every 30 seconds (30000 milliseconds)
+        function autoRefresh() {
+            setTimeout(function () {
+                location.reload();
+            }, 30000); // 30000 milliseconds = 30 seconds
+        }
+
+        // Call autoRefresh when the page is fully loaded
+        //window.onload = autoRefresh;
+    </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('#table_users').DataTable();
+        //$('#Table1').DataTable();
+        $('#DataTable').DataTable();
+    });
+
+    //document.getElementById('uploadLink').onclick = function () {
+    //    var input = document.createElement('input');
+    //    input.type = 'file';
+    //    input.onchange = function (event) {
+    //        var file = event.target.files[0];
+    //        if (file) {
+    //            uploadFile(file);
+    //        }
+    //    };
+    //    input.click();
+    //};
+
+    //function uploadFile(file) {
+    //    var xhr = new XMLHttpRequest();
+    //    var formData = new FormData();
+    //    formData.append('file', file);
+
+    //    xhr.open('POST', 'http://localhost:3000/dpo/import', true);
+    //    xhr.onload = function () {
+    //        if (xhr.status === 200) {
+    //            // Berhasil
+    //            console.log('File berhasil diunggah');
+    //        } else {
+    //            // Gagal
+    //            console.error('Gagal mengunggah file');
+    //        }
+    //    };
+    //    xhr.onerror = function () {
+    //        console.error('Kesalahan koneksi');
+    //    };
+    //    xhr.send(formData);
+    //}
+    //function uploadFile(file) {
+    //    var formData = new FormData();
+    //    formData.append('file', file);
+
+    //    fetch('http://localhost:3000/dpo/import', {
+    //        method: 'POST',
+    //        body: formData
+    //    })
+    //        .then(response => {
+    //            if (!response.ok) {
+    //                throw new Error('Gagal mengunggah file');
+    //            }
+    //            console.log('File berhasil diunggah');
+    //        })
+    //        .catch(error => {
+    //            console.error(error);
+    //        });
+    //}
+
+    function kirimFileKeAPI() {
+        var fileInput = document.getElementById('fileInput'); // Ambil input file dari HTML
+        var file = fileInput.files[0]; // Ambil file dari input
+
+        var formData = new FormData();
+        formData.append('file', file); // Tambahkan file ke FormData
+
+        // Buat permintaan HTTP POST
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:3000/dpo/import', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Berhasil
+                console.log('File berhasil dikirim ke API');
+            } else {
+                // Gagal
+                console.error('Gagal mengirim file ke API');
+            }
+        };
+        xhr.send(formData); // Kirim FormData ke API
+    }
+</script>    
+<script type="text/javascript">
+    function uploadFile() {
+        document.getElementById('fileInput').click();
+    }
+
+    function handleFileUpload(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var formData = new FormData();
+            formData.append('file', file);  // Ensure the key is 'file'
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:3000/dpo/import', true);  // Ensure POST method
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        console.log('File uploaded successfully!');
+                        console.log('Response:', xhr.responseText);
+                    } else {
+                        console.error('Error uploading file:', xhr.responseText);
+                    }
+                }
+            };
+            xhr.send(formData);
+        }
+    }
+</script>
+    <script>
+        function selectCSV() {
+            const csvInput = document.getElementById("csv-file");
+            csvInput.onchange = async function () {
+                const data = new FormData();
+                data.append("file", this.files[0]);
+                var response;
+                //try {
+                //    response = await fetch("/blacklists", {
+                //        headers: {
+                //            "X-CSRF-Token": csrfToken,
+                //            Accept: "application/json",
+                //        },
+                //        method: "POST",
+                //        body: data,
+                //    });
+                //} catch (error) {
+                //    console.log(error);
+                //}
+                fetch('http://localhost:3000/v1/blacklists/import', {
+                        method: 'POST',
+                        body: data
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Gagal mengunggah file');
+                            }
+                            console.log('File berhasil diunggah');
+                            alert("Import File Success");
+                            location.reload();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+
+                //if (response.ok) {
+                //    location.reload();
+                //} else {
+                //    const result = await response.json();
+                //    alert(JSON.stringify(result.message));
+                //}
+            };
+            csvInput.click();
+        }
+        function selectImages() {
+            const imagesInput = document.getElementById("image-files");
+            imagesInput.onchange = async function () {
+                const data = new FormData();
+                for (let i = 0; i < this.files.length; i++) {
+                    data.append("images", this.files[i]);
+                    //alert(this.files[i]);
+                }
+                var response;
+                fetch('http://localhost:3000/v1/blacklists/import/images', {
+                    method: 'POST',
+                    body: data
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Gagal mengunggah file');
+                        }
+                        console.log('File berhasil diunggah');
+                        alert("Import File Success");
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                //try {
+                //    response = await fetch("/blacklists/images", {
+                //        headers: {
+                //            "X-CSRF-Token": csrfToken,
+                //            Accept: "application/json",
+                //        },
+                //        method: "POST",
+                //        body: data,
+                //    });
+                //} catch (error) {
+                //    console.log(error);
+                //}
+
+                //if (response.ok) {
+                //    location.reload();
+                //} else {
+                //    const result = await response.json();
+                //    alert(JSON.stringify(result.message));
+                //}
+            };
+            imagesInput.click();
+        }
+
+        function selectImage(personId) {
+            const imageInput = document.getElementById("image-file");
+            imageInput.onchange = async function () {
+                const data = new FormData();
+                data.append("image", this.files[0]);
+                //alert(this.files[0]);
+                var response;
+                fetch('http://localhost:3000/v1/blacklists/'+personId+'/import/image', {
+                    method: 'POST',
+                    body: data
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Gagal mengunggah file');
+                        }
+                        console.log('File berhasil diunggah');
+                        alert("Import File Success");
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                //try {
+                //    response = await fetch(`/blacklists/${personId}/image`, {
+                //        headers: {
+                //            "X-CSRF-Token": csrfToken,
+                //            Accept: "application/json",
+                //        },
+                //        method: "POST",
+                //        body: data,
+                //    });
+                //} catch (error) {
+                //    console.log(error);
+                //}
+
+                //if (response.ok) {
+                //    location.reload();
+                //} else {
+                //    const result = await response.json();
+                //    alert(JSON.stringify(result.message));
+                //}
+            };
+            imageInput.click();
+        }
+
+        
+    </script>
+    <script>
+        function confirmDelete(event, id) {
+            event.preventDefault(); // Mencegah aksi default dari link
+
+            if (confirm('Are you sure you want to delete this item?')) {
+                fetch(`http://localhost:3000/v1/blacklists/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Item deleted successfully.');
+                            location.reload();
+                            // Anda bisa menambahkan logika tambahan di sini, misalnya:
+                            // Menghapus elemen dari DOM atau melakukan refresh halaman
+                        } else {
+                            alert('Failed to delete item.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the item.');
+                    });
+            }
+        }
+    </script>
+
+</asp:Content>
+

@@ -1,0 +1,1 @@
+Ò$ 2xmlXVhropackages/System.Resources.ResourceManager.4.0.1/ref/netstandard1.0/zh-hant/System.Resources.ResourceManager.xml

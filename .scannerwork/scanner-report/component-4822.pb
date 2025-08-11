@@ -1,0 +1,1 @@
+Ö% 2xmlX°hrWpackages/System.Runtime.Extensions.4.1.0/ref/netcore50/ja/System.Runtime.Extensions.xml

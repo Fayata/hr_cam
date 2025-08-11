@@ -1,0 +1,1 @@
+A 2xmlXDhr:bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml

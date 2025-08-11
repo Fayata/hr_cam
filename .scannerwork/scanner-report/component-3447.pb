@@ -1,0 +1,1 @@
+÷ 2xmlX˜&hrqpackages/System.Configuration.ConfigurationManager.4.4.1/ref/net461/System.Configuration.ConfigurationManager.xml

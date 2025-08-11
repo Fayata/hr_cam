@@ -1,0 +1,209 @@
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Configuration;
+using System.Data;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class Add_user_admin : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["email"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                if (Session["role"].ToString() == "Admin")
+                {
+                    if (!IsPostBack)
+                    {
+                        TextBox3.TextMode = TextBoxMode.Password;
+                        TextBox4.TextMode = TextBoxMode.Password;
+                        using (MySqlConnection con = new MySqlConnection(strcon))
+                        {
+                            if (con.State == ConnectionState.Closed)
+                            {
+                                con.Open();
+                            }
+
+                            using (MySqlCommand cmd = new MySqlCommand("SELECT * from roles", con))
+                            {
+                                using (MySqlDataReader dr = cmd.ExecuteReader())
+                                {
+                                    if (dr.HasRows)
+                                    {
+                                        while (dr.Read())
+                                        {
+                                            DropDownList1.Items.Add(new ListItem(dr.GetValue(1).ToString(), dr.GetValue(0).ToString()));
+                                        }
+                                    }
+                                    else
+                                    {
+                                    }
+                                }
+                            }
+                            //using (MySqlCommand cmd2 = new MySqlCommand("SELECT * from sites", con))
+                            //{
+                            //    using (MySqlDataReader dr2 = cmd2.ExecuteReader())
+                            //    {
+                            //        if (dr2.HasRows)
+                            //        {
+                            //            while (dr2.Read())
+                            //            {
+                            //                DropDownList2.Items.Add(new ListItem(dr2.GetValue(1).ToString(), dr2.GetValue(0).ToString()));
+                            //            }
+                            //        }
+                            //        else
+                            //        {
+                            //        }
+                            //    }
+                            //}
+                        }
+                    }
+                }
+                else
+                {
+                    Response.Redirect("home.aspx");
+                }
+            }
+        }
+
+        protected void TogglePasswordVisibility(string inputId, string iconId)
+        {
+            var passwordInput = FindControl(inputId) as TextBox;
+            var visibilityIcon = FindControl(iconId) as HtmlGenericControl;
+
+            if (passwordInput.TextMode == TextBoxMode.Password)
+            {
+                passwordInput.TextMode = TextBoxMode.SingleLine;
+                visibilityIcon.InnerText = "visibility_off";
+            }
+            else
+            {
+                passwordInput.TextMode = TextBoxMode.Password;
+                visibilityIcon.InnerText = "visibility";
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //Response.Write("<script>alert('masuk ko');</script>");
+            string password = TextBox3.Text;
+            string confirm = TextBox4.Text;
+            if (CheckIfAuthorExists())
+            {
+                Response.Write("<script>alert('Users with this Email already Exist. You cannot add another User with the same Email');</script>");
+            }
+            else
+            {
+                if (password == confirm)
+                {
+                    AddNewUser();
+                }
+                else
+                {
+                    Response.Write("<script>alert('Password and confirm password are not the same');</script>");
+                }
+            }
+        }
+
+        void AddNewUser()
+        {
+            //Response.Write("<script>alert('masuk ko');</script>");
+            try
+            {
+                string name = TextBox1.Text;
+                string email = TextBox2.Text;
+                string password = TextBox3.Text;
+                password = BCrypt.Net.BCrypt.HashPassword(password);
+                string role_id = DropDownList1.SelectedValue;
+                //string site_id = DropDownList2.SelectedValue;
+                using (MySqlConnection con = new MySqlConnection(strcon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    //using (MySqlCommand cmd = new MySqlCommand("INSERT INTO users(name,email,password,role_id,site_id) values(@name,@email,@password,@role_id,@site_id)", con))
+                    //{
+                    //    cmd.Parameters.AddWithValue("@name", name);
+                    //    cmd.Parameters.AddWithValue("@email", email);
+                    //    cmd.Parameters.AddWithValue("@password", password);
+                    //    cmd.Parameters.AddWithValue("@role_id", role_id);
+                    //    cmd.Parameters.AddWithValue("@site_id", site_id);
+
+                    //    cmd.ExecuteNonQuery();
+                    //    con.Close();
+                    //    //Response.Redirect("user_admin.aspx");
+                    //    //Response.Write("<script>alert('User Admin added Successfully');</script>");
+                    //    Session["success"] = "User Admin have been succesfully added.";
+                    //    Response.Redirect("user_admin.aspx");
+                    //}
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO users(name,email,password,role_id, site_id) values(@name,@email,@password,@role_id,1)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@name", name);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@password", password);
+                        cmd.Parameters.AddWithValue("@role_id", role_id);
+
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        //Response.Redirect("user_admin.aspx");
+                        Response.Write("<script>alert('User Admin added Successfully');</script>");
+                        Session["success"] = "User Admin have been succesfully added.";
+                        Response.Redirect("user_admin.aspx");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+            }
+        }
+
+
+
+        bool CheckIfAuthorExists()
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(strcon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT * from users where email='" + TextBox2.Text.Trim() + "'", con))
+                    {
+                        using (MySqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+                return false;
+            }
+        }
+    }
+}

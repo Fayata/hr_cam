@@ -1,0 +1,1 @@
+Ê 2xmlX‡hrTpackages/Microsoft.AspNet.WebApi.WebHost.5.3.0/lib/net45/System.Web.Http.WebHost.xml

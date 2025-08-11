@@ -1,0 +1,155 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class vehicle : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            FillTableFromDatabase();
+            if (!IsPostBack)
+            {
+
+                if (Session["success"] != null)
+                {
+                    // Menampilkan pesan sukses
+                    successMessageDiv.Visible = true; // Menampilkan div pesan sukses
+                    successMessage.Text = Session["success"].ToString(); // Menampilkan pesan sukses
+                    Session.Remove("success"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan sukses
+                    successMessageDiv.Attributes.Add("style", "display:block;");
+                }
+                else if (Session["fail"] != null)
+                {
+                    // Menampilkan pesan gagal
+                    failMessageDiv.Visible = true; // Menampilkan div pesan gagal
+                    failMessage.Text = Session["fail"].ToString(); // Menampilkan pesan gagal
+                    Session.Remove("fail"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan gagal
+                    failMessageDiv.Attributes.Add("style", "display:block;");
+                }
+                else if (Session["update"] != null)
+                {
+                    // Menampilkan pesan update
+                    updateMessageDiv.Visible = true; // Menampilkan div pesan update
+                    updateMessage.Text = Session["update"].ToString(); // Menampilkan pesan update
+                    Session.Remove("update"); // Hapus pesan dari session
+
+                    // Mengubah properti display CSS untuk menampilkan div pesan update
+                    updateMessageDiv.Attributes.Add("style", "display:block;");
+
+                    //Response.Write("ID: " + updateMessage);
+                }
+
+                //FillDataTable();
+            }
+        }
+
+        private void FillTableFromDatabase()
+        {
+            using (MySqlConnection con = new MySqlConnection(strcon))
+            {
+                con.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("SELECT v.id, v.person_id, v.plate_number, v.status, v2.type, v2.owner, v2.brand, v2.model FROM vehicles v JOIN vehicle_details v2 ON v.id=v2.vehicle_id", con))
+                {
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string police_no = dr["plate_number"].ToString();
+                            string vehicle = dr["type"].ToString();
+                            string owner_name = dr["owner"].ToString();
+                            string brand = dr["brand"].ToString();
+                            string model = dr["model"].ToString();
+                            string vehicleId = dr["id"].ToString();
+
+                            TableRow row = new TableRow();
+
+                            TableCell police_noCell = new TableCell() { Text = police_no };
+                            //police_noCell.Text = police_no;
+                            row.Cells.Add(police_noCell);
+
+                            TableCell vehicleCell = new TableCell() { Text = vehicle };
+                            //vehicleCell.Text = vehicle;
+                            row.Cells.Add(vehicleCell);
+
+
+                            TableCell owner_nameCell = new TableCell() { Text = owner_name };
+                            //owner_nameCell.Text = owner_name;
+                            row.Cells.Add(owner_nameCell);
+
+                            TableCell brandCell = new TableCell() { Text = brand };
+                            //brandCell.Text = brand;
+                            row.Cells.Add(brandCell);
+
+                            TableCell modelCell = new TableCell() { Text = model };
+                            //modelCell.Text = model;
+                            row.Cells.Add(modelCell);
+
+
+
+
+                            // Tambahkan tombol edit dengan ikon Font Awesome
+                            //string editUrl = "edit_user_admin.aspx?id=" + userId;
+                            //TableCell editCell = new TableCell();
+                            //editCell.Style["width"] = "100px";
+                            //LiteralControl editButton = new LiteralControl();
+                            //editButton.Text = "<a href='"+editUrl+"' class='btn btn-warning'>";
+                            //editButton.Text += "<span class='btn-icon'><span class='material-icons'>edit</span></span>";
+                            //editButton.Text += "</a>";
+                            //editCell.Controls.Add(editButton);
+                            //row.Cells.Add(editCell);
+
+                            //string deleteUrl = "delete_user_admin.aspx?id=" + userId;
+                            //TableCell deleteCell = new TableCell();
+                            //deleteCell.Style["width"] = "100px";
+                            //LiteralControl deleteButton = new LiteralControl();
+                            //deleteButton.Text = "<a href=\"" + deleteUrl + "\" class=\"btn btn-danger\" onclick=\"return confirm('Are you sure?');\">";
+                            //deleteButton.Text += "<span class='btn-icon'><span class='material-icons'>delete</span></span>";
+                            //deleteButton.Text += "</a>";
+                            //deleteCell.Controls.Add(deleteButton);
+                            //row.Cells.Add(deleteCell);
+
+                            string deleteUrl = "delete_vehicle.aspx?id=" + vehicleId;
+
+                            TableCell actionCell = new TableCell();
+                            actionCell.Style["width"] = "200px"; // Adjust width as needed
+                            LiteralControl actionButtons = new LiteralControl();
+
+                            // Create the Delete button HTML
+                            //string deleteButtonHtml = "<a href=\"" + deleteUrl + "\" class=\"btn btn-danger\" onclick=\"return confirm('Are you sure?');\">";
+                            //deleteButtonHtml += "<span class='btn-icon'><span class='material-icons'>delete</span></span>";
+                            //deleteButtonHtml += "</a>";
+                            string deleteButtonHtml = "<a href=\"\" class=\"btn btn-danger\" onclick=\"confirmDelete(event," + vehicleId + ")\">";
+                            deleteButtonHtml += "<span class='btn-icon'><span class='material-icons'>delete</span></span>";
+                            deleteButtonHtml += "</a>";
+
+                            // Combine Edit and Delete buttons
+                            actionButtons.Text = deleteButtonHtml;
+
+                            // Add the combined buttons to the cell
+                            actionCell.Controls.Add(actionButtons);
+                            row.Cells.Add(actionCell);
+
+
+                            TableBody.Controls.Add(row);
+                        }
+                        dr.Close();
+                    }
+                }
+            }
+        }
+    }
+}

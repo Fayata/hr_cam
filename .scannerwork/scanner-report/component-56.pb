@@ -1,0 +1,1 @@
+8 2xmlX¼	hr#hr_cam/bin/K4os.Compression.LZ4.xml

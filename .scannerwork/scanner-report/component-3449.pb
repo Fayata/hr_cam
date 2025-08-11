@@ -1,0 +1,1 @@
+ù 2xmlX˜&hrypackages/System.Configuration.ConfigurationManager.4.4.1/ref/netstandard2.0/System.Configuration.ConfigurationManager.xml

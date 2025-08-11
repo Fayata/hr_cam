@@ -1,0 +1,1 @@
+Ã 2xmlXøhr[packages/System.Diagnostics.Debug.4.0.11/ref/netstandard1.3/fr/System.Diagnostics.Debug.xml

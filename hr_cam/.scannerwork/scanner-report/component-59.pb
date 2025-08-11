@@ -1,0 +1,1 @@
+; 2xmlX¼	hrbin/K4os.Compression.LZ4.xml

@@ -1,0 +1,214 @@
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace hr_cam
+{
+    public partial class user_admin : System.Web.UI.Page
+    {
+        readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        //protected void Page_Load(object sender, EventArgs e)
+        //{
+        //    using (MySqlConnection con = new MySqlConnection(strcon))
+        //    {
+        //        if (con.State == ConnectionState.Closed)
+        //        {
+        //            con.Open();
+        //        }
+
+        //        using (MySqlCommand cmd = new MySqlCommand("SELECT u.id, u.name, u.email, u.created_at, u.role_id, r.name AS role FROM users u JOIN roles r ON u.role_id=r.id\r\n", con))
+        //        {
+
+        //            using (MySqlDataReader dr = cmd.ExecuteReader())
+        //            {
+        //                if (dr.HasRows)
+        //                {
+        //                    while (dr.Read())
+        //                    {
+        //                        Response.Write("<script>console.log('Halo "+dr.GetValue(1).ToString()+"')</script>");
+        //                    }
+        //                    //Response.Redirect("home.aspx");
+        //                }
+        //                else
+        //                {
+        //                    Response.Write("<script>alert('Invalid credentials');</script>");
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["email"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                if (Session["role"].ToString() == "Admin")
+                {
+                    FillTableFromDatabase();
+                    if (!IsPostBack)
+                    {
+
+                        if (Session["success"] != null)
+                        {
+                            // Menampilkan pesan sukses
+                            successMessageDiv.Visible = true; // Menampilkan div pesan sukses
+                            successMessage.Text = Session["success"].ToString(); // Menampilkan pesan sukses
+                            Session.Remove("success"); // Hapus pesan dari session
+
+                            // Mengubah properti display CSS untuk menampilkan div pesan sukses
+                            successMessageDiv.Attributes.Add("style", "display:block;");
+                        }
+                        else if (Session["fail"] != null)
+                        {
+                            // Menampilkan pesan gagal
+                            failMessageDiv.Visible = true; // Menampilkan div pesan gagal
+                            failMessage.Text = Session["fail"].ToString(); // Menampilkan pesan gagal
+                            Session.Remove("fail"); // Hapus pesan dari session
+
+                            // Mengubah properti display CSS untuk menampilkan div pesan gagal
+                            failMessageDiv.Attributes.Add("style", "display:block;");
+                        }
+                        else if (Session["update"] != null)
+                        {
+                            // Menampilkan pesan update
+                            updateMessageDiv.Visible = true; // Menampilkan div pesan update
+                            updateMessage.Text = Session["update"].ToString(); // Menampilkan pesan update
+                            Session.Remove("update"); // Hapus pesan dari session
+
+                            // Mengubah properti display CSS untuk menampilkan div pesan update
+                            updateMessageDiv.Attributes.Add("style", "display:block;");
+
+                            //Response.Write("ID: " + updateMessage);
+                        }
+
+                        //FillDataTable();
+                    }
+                }
+                else
+                {
+                    Response.Redirect("home.aspx");
+                }
+            }
+        }
+
+       
+
+        
+
+        private void FillTableFromDatabase()
+        {
+            using (MySqlConnection con = new MySqlConnection(strcon))
+            {
+                con.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("SELECT u.id, u.name, u.email, u.created_at, u.id FROM users u", con))
+                {
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name = dr["name"].ToString();
+                            string email = dr["email"].ToString();
+                            string createdAt = dr["created_at"].ToString();
+                            string userId = dr["id"].ToString();
+
+                            TableRow row = new TableRow();
+
+                            //TableCell nameCell = new TableCell();
+                            //nameCell.Text = name;
+                            TableCell nameCell = new TableCell() { Text = name };
+                            row.Cells.Add(nameCell);
+
+                            //TableCell emailCell = new TableCell();
+                            //emailCell.Text = email;
+                            TableCell emailCell = new TableCell() { Text = email };
+                            row.Cells.Add(emailCell);
+
+                            //TableCell createdAtCell = new TableCell();
+                            //createdAtCell.Text = createdAt;
+                            TableCell createdAtCell = new TableCell() { Text = createdAt };
+                            row.Cells.Add(createdAtCell);
+
+
+                            // Tambahkan tombol edit dengan ikon Font Awesome
+                            //string editUrl = "edit_user_admin.aspx?id=" + userId;
+                            //TableCell editCell = new TableCell();
+                            //editCell.Style["width"] = "100px";
+                            //LiteralControl editButton = new LiteralControl();
+                            //editButton.Text = "<a href='"+editUrl+"' class='btn btn-warning'>";
+                            //editButton.Text += "<span class='btn-icon'><i class='fa-solid fa-pencil'></i></span>";
+                            //editButton.Text += "</a>";
+                            //editCell.Controls.Add(editButton);
+                            //row.Cells.Add(editCell);
+
+                            //string deleteUrl = "delete_user_admin.aspx?id=" + userId;
+                            //TableCell deleteCell = new TableCell();
+                            //deleteCell.Style["width"] = "100px";
+                            //LiteralControl deleteButton = new LiteralControl();
+                            //deleteButton.Text = "<a href=\"" + deleteUrl + "\" class=\"btn btn-danger\" onclick=\"return confirm('Are you sure?');\">";
+                            //deleteButton.Text += "<span class='btn-icon'><i class='fa-solid fa-trash-can'></i></span>";
+                            //deleteButton.Text += "</a>";
+                            //deleteCell.Controls.Add(deleteButton);
+                            //row.Cells.Add(deleteCell);
+
+                            string editUrl = "edit_user_admin.aspx?id=" + userId;
+                            string deleteUrl = "delete_user_admin.aspx?id=" + userId;
+
+                            TableCell actionCell = new TableCell();
+                            actionCell.Style["width"] = "200px"; // Adjust width as needed
+                            LiteralControl actionButtons = new LiteralControl();
+
+                            // Create the Edit button HTML
+                            string editButtonHtml = "<a href='" + editUrl + "' class='btn btn-warning'>";
+                            editButtonHtml += "<span class='btn-icon'><i class='fa-solid fa-pencil'></i></span>";
+                            editButtonHtml += "</a>";
+
+                            // Create the Delete button HTML
+                            string deleteButtonHtml = "<a href=\"" + deleteUrl + "\" class=\"btn btn-danger\" onclick=\"return confirm('Are you sure?');\">";
+                            deleteButtonHtml += "<span class='btn-icon'><i class='fa-solid fa-trash-can'></i></span>";
+                            deleteButtonHtml += "</a>";
+
+                            // Combine Edit and Delete buttons
+                            actionButtons.Text = editButtonHtml + " " + deleteButtonHtml;
+
+                            // Add the combined buttons to the cell
+                            actionCell.Controls.Add(actionButtons);
+                            row.Cells.Add(actionCell);
+
+
+                            TableBody.Controls.Add(row);
+                        }
+                        dr.Close();
+                    }
+                }
+            }
+        }
+
+        protected void EditButton_Command(object sender, CommandEventArgs e)
+        {
+            //Response.Write("<script>alert('Edit '"+name+");</script>");
+            string name = e.CommandArgument.ToString();
+
+            // Lakukan apa yang diperlukan saat tombol edit ditekan, misalnya, arahkan pengguna ke halaman edit dengan ID atau parameter lainnya
+        }
+
+        protected void DeleteButton_Command(object sender, CommandEventArgs e)
+        {
+            string name = e.CommandArgument.ToString();
+            // Lakukan apa yang diperlukan saat tombol hapus ditekan, misalnya, hapus data dengan ID atau parameter lainnya
+        }
+
+
+    }
+}
